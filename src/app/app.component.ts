@@ -27,8 +27,6 @@ export class AppComponent implements OnInit, OnChanges {
   ngOnInit(): void {
 
     this.initializeMap();
-    // this.simplePolylines();
-    // this.polylinesOnClick();
 
   }
 
@@ -56,8 +54,14 @@ export class AppComponent implements OnInit, OnChanges {
         // mapTypeId: 'satellite'
       });
       this.map = map;
+      // this.simplePolylines();
+      this.polylinesOnClick();
+      google.maps.event.addDomListener(this.map, 'click', (event) => {
+        google.maps.event.trigger(this, 'click');
+        this.addLatLng(event.latLng);
+      });
     });
-    this.simplePolylines();
+
   }
 
   public simplePolylines(): void {
@@ -70,20 +74,12 @@ export class AppComponent implements OnInit, OnChanges {
     this.poly = new google.maps.Polyline({
       path: flightPlanCoordinates,
       map: this.map,
+      geodesic: true,
       strokeColor: 'blue',
       strokeOpacity: 0.8,
       strokeWeight: 2
 
     });
-    // let flightPath = new google.maps.Polyline({
-    //   path: flightPlanCoordinates,
-    //   map: this.map,
-    //   geodesic: true,
-    //   strokeColor: '#FF0000',
-    //   strokeOpacity: 1.0,
-    //   strokeWeight: 2
-    // });
-    // flightPath.setMap(this.map);
   }
 
   public polylinesOnClick(): void {
@@ -93,30 +89,13 @@ export class AppComponent implements OnInit, OnChanges {
       strokeOpacity: 1.0,
       strokeWeight: 3
     });
-    // this.poly.setMap(this.map);
-
-    // Add a listener for the click event
-    this.map.addListener('click', this.addLatLng);
   }
 
   // Handles click events on a map, and adds a new point to the Polyline.
-  addLatLng() {
+  public addLatLng(latLng) {
     let path = this.poly.getPath();
+    path.push(latLng);
 
-    // Because path is an MVCArray, we can simply append a new coordinate
-    // and it will automatically appear.
-
-    console.log(event);
-
-    // path.push(event.latLng);
-
-    // Add a new marker at the new plotted point on the polyline.
-
-    // let marker = new google.maps.Marker({
-    //   position: event.latLng,
-    //   title: '#' + path.getLength(),
-    //   map: this.map
-    // });
   }
 }
 
