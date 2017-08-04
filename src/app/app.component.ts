@@ -30,56 +30,61 @@ export class AppComponent implements OnInit, OnChanges {
 
   }
 
-  resizeMap(center: any): void {
-    google.maps.event.trigger(this.map, 'resize');
-    this.map.setCenter(center);
-  }
+  // resizeMap(center: any): void {
+  //   google.maps.event.trigger(this.map, 'resize');
+  //   this.map.setCenter(center);
+  // }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.redrawMap && !changes.redrawMap.firstChange) {
-      if (this.map) {
-        const center = this.map.getCenter();
-        setTimeout(this.resizeMap.bind(this, center), 750);
-      }
-    }
+  //   if (changes.redrawMap && !changes.redrawMap.firstChange) {
+  //     if (this.map) {
+  //       const center = this.map.getCenter();
+  //       setTimeout(this.resizeMap.bind(this, center), 750);
+  //     }
+  //   }
 
-    this.initializeMap();
+  //   this.initializeMap();
   }
 
   public initializeMap() {
     GoogleMapApiLoader.load().then((res: any) => {
       let map = new google.maps.Map(this.mapElement.nativeElement, {
         center: {lat: 41.879, lng: -87.624},
-         zoom: 4,
+         zoom: 18,
         // mapTypeId: 'satellite'
       });
       this.map = map;
-      // this.simplePolylines();
-      this.polylinesOnClick();
-      google.maps.event.addDomListener(this.map, 'click', (event) => {
-        google.maps.event.trigger(this, 'click');
-        this.addLatLng(event.latLng);
-      });
+      // this.polylinesOnClick();
+      // google.maps.event.addDomListener(this.map, 'click', (event) => {
+      //   google.maps.event.trigger(this, 'click');
+      //   this.addLatLng(event.latLng);
+      // });
+
+      this.livePolyLines();
+
     });
 
   }
 
-  public simplePolylines(): void {
+  public livePolyLines(): void {
      let flightPlanCoordinates = [
-      {lat: 37.772, lng: -122.214},
-      {lat: 21.291, lng: -157.821},
-      {lat: -18.142, lng: 178.431},
-      {lat: -27.467, lng: 153.027}
+      {index: 1, lat: 37.772, lng: -122.214},
+      {index: 2, lat: 21.291, lng: -157.821},
+      {index: 3, lat: -18.142, lng: 178.431},
+      {index: 4, lat: -27.467, lng: 153.027}
     ];
     this.poly = new google.maps.Polyline({
-      path: flightPlanCoordinates,
       map: this.map,
       geodesic: true,
       strokeColor: 'blue',
       strokeOpacity: 0.8,
       strokeWeight: 2
-
     });
+    let latLngVar;
+    for (let i = 0; i < 4; i++ ) {
+      latLngVar = new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng);
+      this.addLatLng(latLngVar);
+    }
   }
 
   public polylinesOnClick(): void {
