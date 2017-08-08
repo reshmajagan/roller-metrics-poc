@@ -23,10 +23,17 @@ export class AppComponent implements OnInit, OnChanges {
   title = 'app';
   poly: any = {};
   map: any = null;
+  flightPlanCoordinates: any;
 
   ngOnInit(): void {
 
     this.initializeMap();
+    this.flightPlanCoordinates = [
+      {index: 1, lat: 37.772, lng: -122.214},
+      {index: 2, lat: 21.291, lng: -157.821},
+      {index: 3, lat: -18.142, lng: 178.431},
+      {index: 4, lat: -27.467, lng: 153.027}
+    ];
 
   }
 
@@ -50,8 +57,7 @@ export class AppComponent implements OnInit, OnChanges {
     GoogleMapApiLoader.load().then((res: any) => {
       let map = new google.maps.Map(this.mapElement.nativeElement, {
         center: {lat: 41.879, lng: -87.624},
-         zoom: 18,
-        // mapTypeId: 'satellite'
+         zoom: 2,
       });
       this.map = map;
       // this.polylinesOnClick();
@@ -67,12 +73,6 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   public livePolyLines(): void {
-     let flightPlanCoordinates = [
-      {index: 1, lat: 37.772, lng: -122.214},
-      {index: 2, lat: 21.291, lng: -157.821},
-      {index: 3, lat: -18.142, lng: 178.431},
-      {index: 4, lat: -27.467, lng: 153.027}
-    ];
     this.poly = new google.maps.Polyline({
       map: this.map,
       geodesic: true,
@@ -80,11 +80,23 @@ export class AppComponent implements OnInit, OnChanges {
       strokeOpacity: 0.8,
       strokeWeight: 2
     });
-    let latLngVar;
-    for (let i = 0; i < 4; i++ ) {
-      latLngVar = new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng);
-      this.addLatLng(latLngVar);
-    }
+    let i = 0;
+    this.loopFunction(i);
+  }
+
+  loopFunction(i: number): void {
+    setTimeout(() => {
+
+      this.addPointToPath(this.flightPlanCoordinates[i]);
+      if (++i < 4) {
+        this.loopFunction(i);
+      }
+    }, (1000));
+  }
+
+  addPointToPath(point: any): void {
+    let latLngVar = new google.maps.LatLng(point.lat, point.lng);
+    this.addLatLng(latLngVar);
   }
 
   public polylinesOnClick(): void {
