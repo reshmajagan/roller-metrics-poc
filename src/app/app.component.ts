@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   title = 'app';
   poly: any = {};
+  passTwoPoly: any = {};
   map: any = null;
   flightPlanCoordinates: any;
 
@@ -37,7 +38,16 @@ export class AppComponent implements OnInit, OnChanges {
       {index: 1, lat: 37.772, lng: -122.214},
       {index: 2, lat: 21.291, lng: -157.821},
       {index: 3, lat: -18.142, lng: 178.431},
-      {index: 4, lat: -27.467, lng: 153.027}
+      {index: 4, lat: -27.467, lng: 153.027},
+      {index: 5, lat: -28.467, lng: 153.027},
+      {index: 6, lat: -19.142, lng: 178.431},
+      {index: 7, lat: 20.291, lng: -157.821},
+      {index: 8, lat: 36.772, lng: -122.214},
+      {index: 9, lat: 37.772, lng: -122.214},
+      {index: 10, lat: 21.291, lng: -157.821},
+      {index: 11, lat: -18.142, lng: 178.431},
+      {index: 12, lat: -27.467, lng: 153.027}
+
     ];
 
     this.loadPathService.loadPath()
@@ -78,7 +88,14 @@ export class AppComponent implements OnInit, OnChanges {
     this.poly = new google.maps.Polyline({
       map: this.map,
       geodesic: true,
-      strokeColor: 'green',
+      strokeColor: 'red',
+      strokeOpacity: 0.8,
+      strokeWeight: 2
+    });
+    this.passTwoPoly = new google.maps.Polyline({
+      map: this.map,
+      geodesic: true,
+      strokeColor: 'yellow',
       strokeOpacity: 0.8,
       strokeWeight: 2
     });
@@ -90,7 +107,7 @@ export class AppComponent implements OnInit, OnChanges {
     setTimeout(() => {
 
       this.addPointToPath(this.flightPlanCoordinates[i]);
-      if (++i < 4) {
+      if (++i < (this.flightPlanCoordinates.length)) {
         this.loopFunction(i);
       }
     }, (1000));
@@ -101,19 +118,24 @@ export class AppComponent implements OnInit, OnChanges {
     this.addLatLng(latLngVar);
   }
 
-  public polylinesOnClick(): void {
-    this.poly = new google.maps.Polyline({
-      map: this.map,
-      strokeColor: '#000000',
-      strokeOpacity: 1.0,
-      strokeWeight: 3
-    });
-  }
-
   // Handles click events on a map, and adds a new point to the Polyline.
   public addLatLng(latLng) {
-    let path = this.poly.getPath();
-    path.push(latLng);
+    let passOnePath = this.poly.getPath();
+    let passTwoPath = this.passTwoPoly.getPath();
+    let pathPolyLine = new google.maps.Polyline({
+      path: passOnePath
+    });
+    // Checking for repeated passes
+    if (google.maps.geometry.poly.isLocationOnEdge(latLng, pathPolyLine, 10e-1)) {
+      console.log('Relocate!');
+      // let prevLatLng = passOnePath[passOnePath.length - 1];
+      // passTwoPath.push(prevLatLng);
+      passTwoPath.push(latLng);
+    } else {
+      // let prevLatLng = passTwoPath[passTwoPath.length - 1];
+      // passTwoPath.push(prevLatLng);
+      passOnePath.push(latLng);
+    }
 
   }
 }

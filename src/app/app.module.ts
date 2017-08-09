@@ -16,6 +16,7 @@ import { LoadPathService } from './load-path.service';
     BrowserModule,
     AgmCoreModule.forRoot({
       apiKey: GOOGLE_API_KEY,
+      libraries: ['geometry']
     }),
     HttpModule
   ],
