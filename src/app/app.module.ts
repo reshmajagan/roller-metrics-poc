@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { HttpModule } from '@angular/http';
 
 
 import { AppComponent } from './app.component';
 import { GOOGLE_API_KEY } from './shared/constants';
+import { LoadPathService } from './load-path.service';
 
 @NgModule({
   declarations: [
@@ -14,10 +16,12 @@ import { GOOGLE_API_KEY } from './shared/constants';
     BrowserModule,
     AgmCoreModule.forRoot({
       apiKey: GOOGLE_API_KEY,
-      // libraries: ['places']
-    })
+    }),
+    HttpModule
   ],
-  providers: [],
+  providers: [
+    LoadPathService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 
 import { GoogleMapApiLoader } from './shared/google-map-api-loader';
+import { LoadPathService } from './load-path.service';
 
 declare var google: any;
 
@@ -18,6 +19,10 @@ declare var google: any;
 
 
 export class AppComponent implements OnInit, OnChanges {
+  constructor(
+    private loadPathService: LoadPathService
+  ) {}
+
   @ViewChild('map') mapElement: any;
 
   title = 'app';
@@ -35,12 +40,15 @@ export class AppComponent implements OnInit, OnChanges {
       {index: 4, lat: -27.467, lng: 153.027}
     ];
 
-  }
+    this.loadPathService.loadPath()
+      .subscribe(
+        data => { console.log('successful');
+                  console.log(data);
+                },
+        // error => { console.log(error); }
+      );
 
-  // resizeMap(center: any): void {
-  //   google.maps.event.trigger(this.map, 'resize');
-  //   this.map.setCenter(center);
-  // }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
   //   if (changes.redrawMap && !changes.redrawMap.firstChange) {
@@ -60,12 +68,6 @@ export class AppComponent implements OnInit, OnChanges {
          zoom: 2,
       });
       this.map = map;
-      // this.polylinesOnClick();
-      // google.maps.event.addDomListener(this.map, 'click', (event) => {
-      //   google.maps.event.trigger(this, 'click');
-      //   this.addLatLng(event.latLng);
-      // });
-
       this.livePolyLines();
 
     });
@@ -76,7 +78,7 @@ export class AppComponent implements OnInit, OnChanges {
     this.poly = new google.maps.Polyline({
       map: this.map,
       geodesic: true,
-      strokeColor: 'blue',
+      strokeColor: 'green',
       strokeOpacity: 0.8,
       strokeWeight: 2
     });
