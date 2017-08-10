@@ -26,6 +26,8 @@ export class AppComponent implements OnInit, OnChanges {
   @ViewChild('map') mapElement: any;
 
   title = 'app';
+  passOnePolylines: Array<any>;
+  passTwoPolylines: Array<any>;
   poly: any = {};
   passTwoPoly: any = {};
   map: any = null;
@@ -90,14 +92,14 @@ export class AppComponent implements OnInit, OnChanges {
       geodesic: true,
       strokeColor: 'red',
       strokeOpacity: 0.8,
-      strokeWeight: 2
+      strokeWeight: 1
     });
     this.passTwoPoly = new google.maps.Polyline({
       map: this.map,
       geodesic: true,
       strokeColor: 'yellow',
       strokeOpacity: 0.8,
-      strokeWeight: 2
+      strokeWeight: 1
     });
     let i = 0;
     this.loopFunction(i);
@@ -115,28 +117,30 @@ export class AppComponent implements OnInit, OnChanges {
 
   addPointToPath(point: any): void {
     let latLngVar = new google.maps.LatLng(point.lat, point.lng);
-    this.addLatLng(latLngVar);
-  }
-
-  // Handles click events on a map, and adds a new point to the Polyline.
-  public addLatLng(latLng) {
     let passOnePath = this.poly.getPath();
     let passTwoPath = this.passTwoPoly.getPath();
     let pathPolyLine = new google.maps.Polyline({
       path: passOnePath
     });
     // Checking for repeated passes
-    if (google.maps.geometry.poly.isLocationOnEdge(latLng, pathPolyLine, 10e-1)) {
-      console.log('Relocate!');
-      // let prevLatLng = passOnePath[passOnePath.length - 1];
-      // passTwoPath.push(prevLatLng);
-      passTwoPath.push(latLng);
-    } else {
-      // let prevLatLng = passTwoPath[passTwoPath.length - 1];
-      // passTwoPath.push(prevLatLng);
-      passOnePath.push(latLng);
-    }
+    if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-1)) {
+      let len = passOnePath.getLength();
+      if (len > 0) {
+        let prevLatLng = passOnePath.getAt(len - 1);
+        passTwoPath.push(prevLatLng);
 
+      }
+      passTwoPath.push(latLngVar);
+    } else {
+      let len = passTwoPath.getLength();
+
+      if (len > 0) {
+        let prevLatLng = passTwoPath.getAt(len - 1);
+        passTwoPath.push(prevLatLng);
+      }
+      passOnePath.push(latLngVar);
+    }
   }
+
 }
 
