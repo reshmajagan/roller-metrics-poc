@@ -21,7 +21,7 @@ export class LoadPathService {
     options.headers = new Headers();
     options.headers.append('Content-Type', 'application/json');
     return this.http.get(url, options)
-      .map(res => res);
+      .map(res => res.json());
       // .catch(error => Observable.throw(error) );
   }
 }
