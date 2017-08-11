@@ -171,32 +171,10 @@ export class AppComponent implements OnInit, OnChanges {
         path: path
       });
       checkWhichPass = 4;
-      this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
-      // if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-6)) {
-      //   /**Pass 4 */
-      //   console.log('pass 4');
-
-      //   // this.passNumber = 4;
-      //   this.passThreePolylines.push(this.polyline);
-
-      //   this.polyline = new google.maps.Polyline({
-      //     geodesic: true,
-      //     strokeOpacity: 0.9,
-      //     strokeWeight: 1,
-      //     map: this.map,
-      //     strokeColor: '#1ABD01' // dark green color
-      //   });
-      //   tempPath = this.passThreePolylines[this.passThreePolylines.length - 1].getPath();
-      //   len = tempPath.getLength();
-      //   path = this.polyline.getPath();
-      //   if (len > 0) {
-      //     prevLatLng = tempPath.getAt(len - 1);
-      //     path.push(prevLatLng);
-      //   }
-      //   path.push(latLngVar);
-      //   this.passFourPolylines.push(this.polyline);
-      //   break;
-      // }
+      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      if (checkWhichPass > 0) {
+        break;
+      }
       index++;
 
     }
@@ -213,32 +191,6 @@ export class AppComponent implements OnInit, OnChanges {
       if (checkWhichPass > 0) {
         break;
       }
-      // if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-6)) {
-      //   /**Pass 3 */
-      //   console.log('pass 3');
-
-      //   this.passNumber = 3;
-      //   this.passTwoPolylines.push(this.polyline);
-
-      //   this.polyline = new google.maps.Polyline({
-      //     geodesic: true,
-      //     strokeOpacity: 0.9,
-      //     strokeWeight: 1,
-      //     map: this.map,
-      //     strokeColor: '#00FD53'
-      //   });
-      //   // this.polyline.strokeColor = '#00FD53'; // light green color
-      //   tempPath = this.passTwoPolylines[this.passTwoPolylines.length - 1].getPath();
-      //   len = tempPath.getLength();
-      //   path = this.polyline.getPath();
-      //   if (len > 0) {
-      //     prevLatLng = tempPath.getAt(len - 1);
-      //     path.push(prevLatLng);
-      //   }
-      //   path.push(latLngVar);
-      //   this.passThreePolylines.push(this.polyline);
-      //   break;
-      // }
       index++;
 
     }
@@ -254,31 +206,6 @@ export class AppComponent implements OnInit, OnChanges {
       if (checkWhichPass > 0) {
         break;
       }
-      // if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-6)) {
-      //   /**Pass 2 */
-      //   console.log('pass 2');
-
-      //   this.passNumber = 2;
-      //   this.passOnePolylines.push(this.polyline);
-
-      //   this.polyline = new google.maps.Polyline({
-      //     geodesic: true,
-      //     strokeOpacity: 0.9,
-      //     strokeWeight: 1,
-      //     map: this.map,
-      //     strokeColor: 'yellow'
-      //   });
-      //   tempPath = this.passOnePolylines[this.passOnePolylines.length - 1].getPath();
-      //   len = tempPath.getLength();
-      //   path = this.polyline.getPath();
-      //   if (len > 0) {
-      //     prevLatLng = tempPath.getAt(len - 1);
-      //     path.push(prevLatLng);
-      //   }
-      //   path.push(latLngVar);
-      //   this.passTwoPolylines.push(this.polyline);
-      //   break;
-      // }
       index++;
 
     }
@@ -291,36 +218,6 @@ export class AppComponent implements OnInit, OnChanges {
         tempPath = this.polyline.getPath();
         tempPath.push(latLngVar);
       }
-      if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, this.polyline, 10e-6)) {
-        /**Pass 2 qqq*/
-        // console.log('second pass 2');
-
-        // this.passNumber = 2;
-        // this.passOnePolylines.push(this.polyline);
-
-        // this.polyline = new google.maps.Polyline({
-        //   geodesic: true,
-        //   strokeOpacity: 0.9,
-        //   strokeWeight: 1,
-        //   map: this.map,
-        //   strokeColor: 'yellow'
-        // });
-
-        // tempPath = this.passOnePolylines[this.passOnePolylines.length - 1].getPath();
-        // len = tempPath.getLength();
-        // path = this.polyline.getPath();
-        // if (len > 0) {
-        //   prevLatLng = tempPath.getAt(len - 1);
-        //   path.push(prevLatLng);
-        // }
-        // path.push(latLngVar);
-        // this.passTwoPolylines.push(this.polyline);
-      // } else {
-      //   tempPath = this.polyline.getPath();
-      //   tempPath.push(latLngVar);
-      }
-
-      // this.passOnePolylines[this.passOnePolylines.length] = this.polyline;
     }
 
   }
@@ -364,7 +261,7 @@ export class AppComponent implements OnInit, OnChanges {
           strokeColor = '#50007C'; // purple color
           break;
       }
-        // qqq
+
       if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-6)) {
         console.log('pass:', checkWhichPass);
 
