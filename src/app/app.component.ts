@@ -40,55 +40,41 @@ export class AppComponent implements OnInit, OnChanges {
   polyOptions: any;
   gpsData: any;
   passNumber: number = 0;
-
+  marker: any;
   ngOnInit(): void {
 
     this.flightPlanCoordinates = [
-      {index: 1, latitude: 37.772, longitude: -122.214},
-      {index: 2, latitude: 21.291, longitude: -157.821},
-      {index: 3, latitude: -18.142, longitude: 178.431},
-      {index: 4, latitude: -27.467, longitude: 153.027},
-      {index: 5, latitude: -28.467, longitude: 153.027},
-      {index: 6, latitude: -19.142, longitude: 178.431},
-      {index: 7, latitude: 20.291, longitude: -157.821},
-      {index: 8, latitude: 36.772, longitude: -122.214},
-      {index: 9, latitude: 37.772, longitude: -122.214},
-      {index: 10, latitude: 21.291, longitude: -157.821},
-      {index: 11, latitude: -18.142, longitude: 178.431},
-      {index: 12, latitude: -27.467, longitude: 153.027},
-      {index: 13, latitude: 38.772, longitude: -122.214},
-      {index: 14, latitude: 22.291, longitude: -157.821},
-      {index: 15, latitude: -17.142, longitude: 178.431},
-      {index: 16, latitude: -26.467, longitude: 153.027},
-      {index: 17, latitude: -27.467, longitude: 153.027},
-      {index: 18, latitude: -18.142, longitude: 178.431},
-      {index: 19, latitude: 21.291, longitude: -157.821},
-      {index: 20, latitude: 35.772, longitude: -122.214},
-      {index: 21, latitude: 38.772, longitude: -122.214},
-      {index: 22, latitude: 22.291, longitude: -157.821},
-      {index: 23, latitude: -17.142, longitude: 178.431},
-      {index: 24, latitude: -26.467, longitude: 153.027},
-      {index: 25, latitude: -15.142, longitude: 178.431},
-      {index: 26, latitude: -28.467, longitude: 153.027},
-      {index: 27, latitude: -29.467, longitude: 153.027},
-      {index: 28, latitude: -16.142, longitude: 178.431},
-      {index: 29, latitude: 23.291, longitude: -157.821},
-      {index: 30, latitude: 30.772, longitude: -122.214},
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
+      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
+      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
+      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
+      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
+      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
+      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
+      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
+      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
+      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
+      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
+      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
+      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
+      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
+      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
+      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
+      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
+      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
+      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
 
     ];
-  //   this.flightPlanCoordinates = [
-  //     {index: 0, latitude: 38.9948002, longitude: -77.4332245 },
-  //     {index: 1, latitude: 38.9958232, longitude: -77.5342321},
-  //     {index: 2, latitude: 39.0, longitude: -77.6342321},
-  //     {index: 3, latitude: 39.1, longitude: -77.7},
-  //     {index: 4, latitude: 39.0, longitude: -77.6342321},
-  //     {index: 5, latitude: 38.9958232, longitude: -77.53},
-  //     {index: 6, latitude: 38.9948002, longitude: -77.43322},
-  //     // {index: 7, latitude: 20.291, longitude: -157.821},
-  //     // {index: 8, latitude: 36.772, longitude: -122.214},
-  //     // {index: 9, latitude: 37.772, longitude: -122.214},
-  //     // {index: 10, latitude: 21.291, longitude: -157.821},
-  // ];
 
     this.loadPathService.loadPath()
       .subscribe(
@@ -110,16 +96,21 @@ export class AppComponent implements OnInit, OnChanges {
       let map = new google.maps.Map(this.mapElement.nativeElement, {
         // center: {lat: 38.9948002, lng: -77.4332245},
         // zoom: 11,
-        center: {lat: 37.772, lng: -122.214},
-        zoom: 1
+        center: {lat: 37.77184903726687, lng: -122.21363067626953},
+        zoom: 20,
+        mapTypeId: 'satellite'
       });
       this.map = map;
       this.polyOptions = {
         geodesic: true,
-        strokeOpacity: 0.9,
-        strokeWeight: 1,
+        strokeOpacity: 1,
+        strokeWeight: 3,
         map: this.map
       };
+
+      this.marker = new google.maps.Marker({
+        map: this.map
+      });
 
     });
 
@@ -128,8 +119,8 @@ export class AppComponent implements OnInit, OnChanges {
   public livePolyLines(): void {
     this.polyline = new google.maps.Polyline({
         geodesic: true,
-        strokeOpacity: 0.9,
-        strokeWeight: 1,
+        strokeOpacity: 1,
+        strokeWeight: 3,
         map: this.map,
         strokeColor: 'red'
       });
@@ -154,7 +145,7 @@ export class AppComponent implements OnInit, OnChanges {
         console.log(this.passThreePolylines);
 
       }
-    }, (1000));
+    }, (500));
   }
 
   addPointToPath(point: any): void {
@@ -162,6 +153,69 @@ export class AppComponent implements OnInit, OnChanges {
 
     let path, tempPath, len, prevLatLng, pathPolyLine, index, prevPolyline, checkWhichPass;
 
+    /**Check for Pass 7 */
+    index = 0;
+    while (this.passSevenPolylines && this.passSevenPolylines[index] /*&& (this.passNumber === 0)*/) {
+
+      path = this.passSevenPolylines[index].getPath();
+      pathPolyLine = new google.maps.Polyline({
+        path: path
+      });
+      checkWhichPass = 7;
+      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      if (checkWhichPass > 0) {
+        break;
+      }
+      index++;
+    }
+
+    index = 0;
+    while (this.passSixPolylines && this.passSixPolylines[index] /*&& (this.passNumber === 0)*/) {
+
+      path = this.passSixPolylines[index].getPath();
+      pathPolyLine = new google.maps.Polyline({
+        path: path
+      });
+      checkWhichPass = 7;
+      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      if (checkWhichPass > 0) {
+        break;
+      }
+      index++;
+
+    }
+    /**Check for Pass 6 */
+    index = 0;
+    while (this.passFivePolylines && this.passFivePolylines[index] /*&& (this.passNumber === 0)*/) {
+
+      path = this.passFivePolylines[index].getPath();
+      pathPolyLine = new google.maps.Polyline({
+        path: path
+      });
+      checkWhichPass = 6;
+      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      if (checkWhichPass > 0) {
+        break;
+      }
+      index++;
+
+    }
+    /**Check for Pass 5 */
+    index = 0;
+    while (this.passFourPolylines && this.passFourPolylines[index] /*&& (this.passNumber === 0)*/) {
+
+      path = this.passFourPolylines[index].getPath();
+      pathPolyLine = new google.maps.Polyline({
+        path: path
+      });
+      checkWhichPass = 5;
+      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      if (checkWhichPass > 0) {
+        break;
+      }
+      index++;
+
+    }
     /**Check for Pass 4 */
     index = 0;
     while (this.passThreePolylines && this.passThreePolylines[index] /*&& (this.passNumber === 0)*/) {
@@ -220,6 +274,12 @@ export class AppComponent implements OnInit, OnChanges {
       }
     }
 
+    this.marker.setMap(null);
+    this.marker = new google.maps.Marker({
+      position: latLngVar,
+      map: this.map
+    });
+
   }
 
   checkNewPoint(latLngVar, pathPolyLine, checkWhichPass): number {
@@ -262,15 +322,15 @@ export class AppComponent implements OnInit, OnChanges {
           break;
       }
 
-      if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-6)) {
+      if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-7)) {
         console.log('pass:', checkWhichPass);
 
         passAPolylines.push(this.polyline);
 
         this.polyline = new google.maps.Polyline({
           geodesic: true,
-          strokeOpacity: 0.9,
-          strokeWeight: 1,
+          strokeOpacity: 1,
+          strokeWeight: 3,
           map: this.map,
           strokeColor: strokeColor
         });
