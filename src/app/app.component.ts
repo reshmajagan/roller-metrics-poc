@@ -74,6 +74,95 @@ export class AppComponent implements OnInit, OnChanges {
       {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
       {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
 
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
+      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
+      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
+      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
+      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
+      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
+      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
+      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
+      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
+      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
+      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
+      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
+      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
+      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
+      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
+      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
+      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
+      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
+      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
+
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
+      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
+      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
+      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
+      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
+      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
+      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
+      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
+      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
+      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
+      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
+      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
+      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
+      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
+      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
+      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
+      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
+      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
+      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
+
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
+      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
+      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
+      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
+      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
+      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
+      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
+      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
+      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
+      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
+      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
+      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
+      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
+      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
+      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
+      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
+      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
+      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
+      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
     ];
 
     this.loadPathService.loadPath()
@@ -97,14 +186,14 @@ export class AppComponent implements OnInit, OnChanges {
         // center: {lat: 38.9948002, lng: -77.4332245},
         // zoom: 11,
         center: {lat: 37.77184903726687, lng: -122.21363067626953},
-        zoom: 20,
+        zoom: 22,
         mapTypeId: 'satellite'
       });
       this.map = map;
       this.polyOptions = {
         geodesic: true,
         strokeOpacity: 1,
-        strokeWeight: 3,
+        strokeWeight: 2,
         map: this.map
       };
 
@@ -120,7 +209,7 @@ export class AppComponent implements OnInit, OnChanges {
     this.polyline = new google.maps.Polyline({
         geodesic: true,
         strokeOpacity: 1,
-        strokeWeight: 3,
+        strokeWeight: 2,
         map: this.map,
         strokeColor: 'red'
       });
@@ -151,7 +240,23 @@ export class AppComponent implements OnInit, OnChanges {
   addPointToPath(point: any): void {
     let latLngVar = new google.maps.LatLng(point.latitude, point.longitude);
 
-    let path, tempPath, len, prevLatLng, pathPolyLine, index, prevPolyline, checkWhichPass;
+    let path, tempPath, len, prevLatlng, startPoint, endPoint, midPoint, midLatlng, pathPolyLine, index, prevPolyline, checkWhichPass;
+    let projection = this.map.getProjection();
+    /**Finding mid-point of polyline */
+    tempPath = this.polyline.getPath();
+    len = tempPath.getLength();
+    prevLatlng = tempPath.getAt(len - 1);
+    midLatlng = null;
+    if (prevLatlng) {
+      /**If polyline path is not null */
+      startPoint = projection.fromLatLngToPoint(prevLatlng);
+      endPoint = projection.fromLatLngToPoint(latLngVar);
+      midPoint = new google.maps.Point(
+        (startPoint.x + endPoint.x) / 2,
+        (startPoint.y + endPoint.y) / 2
+      );
+      midLatlng = projection.fromPointToLatLng(midPoint);
+    }
 
     /**Check for Pass 7 */
     index = 0;
@@ -162,7 +267,7 @@ export class AppComponent implements OnInit, OnChanges {
         path: path
       });
       checkWhichPass = 7;
-      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
       if (checkWhichPass > 0) {
         break;
       }
@@ -177,7 +282,7 @@ export class AppComponent implements OnInit, OnChanges {
         path: path
       });
       checkWhichPass = 7;
-      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
       if (checkWhichPass > 0) {
         break;
       }
@@ -193,7 +298,7 @@ export class AppComponent implements OnInit, OnChanges {
         path: path
       });
       checkWhichPass = 6;
-      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
       if (checkWhichPass > 0) {
         break;
       }
@@ -209,7 +314,7 @@ export class AppComponent implements OnInit, OnChanges {
         path: path
       });
       checkWhichPass = 5;
-      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
       if (checkWhichPass > 0) {
         break;
       }
@@ -225,7 +330,7 @@ export class AppComponent implements OnInit, OnChanges {
         path: path
       });
       checkWhichPass = 4;
-      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
       if (checkWhichPass > 0) {
         break;
       }
@@ -241,7 +346,7 @@ export class AppComponent implements OnInit, OnChanges {
         path: path
       });
       checkWhichPass = 3;
-      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
       if (checkWhichPass > 0) {
         break;
       }
@@ -256,7 +361,7 @@ export class AppComponent implements OnInit, OnChanges {
         path: path
       });
       checkWhichPass = 2;
-      checkWhichPass = this.checkNewPoint(latLngVar, pathPolyLine, checkWhichPass);
+      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
       if (checkWhichPass > 0) {
         break;
       }
@@ -267,7 +372,7 @@ export class AppComponent implements OnInit, OnChanges {
     /**Check for Pass 1 */
     if (this.passNumber === 0) {
       checkWhichPass = 2;
-      checkWhichPass = this.checkNewPoint(latLngVar, this.polyline, checkWhichPass);
+      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, this.polyline, checkWhichPass);
       if (checkWhichPass === 0) {
         tempPath = this.polyline.getPath();
         tempPath.push(latLngVar);
@@ -282,7 +387,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   }
 
-  checkNewPoint(latLngVar, pathPolyLine, checkWhichPass): number {
+  checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass): number {
     let passAPolylines, passBPolylines, strokeColor, tempPath, path, prevLatLng, len;
       switch (checkWhichPass) {
         // case 1:
@@ -322,28 +427,34 @@ export class AppComponent implements OnInit, OnChanges {
           break;
       }
 
-      if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-7)) {
-        console.log('pass:', checkWhichPass);
+      /**checking mid-point of polyline */
+      if (midLatlng && google.maps.geometry.poly.isLocationOnEdge(midLatlng, pathPolyLine, 10e-7)) {
+        /**Checking new LatLng point */
+        if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-7)) {
+          console.log('pass:', checkWhichPass);
 
-        passAPolylines.push(this.polyline);
+          passAPolylines.push(this.polyline);
 
-        this.polyline = new google.maps.Polyline({
-          geodesic: true,
-          strokeOpacity: 1,
-          strokeWeight: 3,
-          map: this.map,
-          strokeColor: strokeColor
-        });
+          this.polyline = new google.maps.Polyline({
+            geodesic: true,
+            strokeOpacity: 1,
+            strokeWeight: 2,
+            map: this.map,
+            strokeColor: strokeColor
+          });
 
-        tempPath = passAPolylines[passAPolylines.length - 1].getPath();
-        len = tempPath.getLength();
-        path = this.polyline.getPath();
-        if (len > 0) {
-          prevLatLng = tempPath.getAt(len - 1);
-          path.push(prevLatLng);
+          tempPath = passAPolylines[passAPolylines.length - 1].getPath();
+          len = tempPath.getLength();
+          path = this.polyline.getPath();
+          if (len > 0) {
+            prevLatLng = tempPath.getAt(len - 1);
+            path.push(prevLatLng);
+          }
+          path.push(latLngVar);
+          passBPolylines.push(this.polyline);
+        } else {
+          checkWhichPass = 0;
         }
-        path.push(latLngVar);
-        passBPolylines.push(this.polyline);
       } else {
         checkWhichPass = 0;
       }
