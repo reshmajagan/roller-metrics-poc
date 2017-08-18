@@ -1,5 +1,26 @@
+
 <div class="map-container" #map></div>
-<video controls id="video1" width="1000" height="100px">
-   <source src="./../assets/videos/services.mp4" type="video/mp4"> 
-  Your browser does not support HTML5 video.
-</video>
+
+<div class="video-controls-container">
+  <div class="video-controls">
+    <button class="play-button">
+        
+      <!-- (click) = "togglePlay()"
+      [ngClass]="{'is-playing':isVideoPlaying}"
+      [title]="isVideoPlaying?'Pause':'Play'"> -->
+    </button>
+    <div class="time-elapsed">{{timeElapsed | timespan}}</div> 
+     <app-slider
+      [value]="timeElapsed || 0"
+      [max]="duration || 0"
+      (valueChange) = "seek($event)"
+      class="slider" #slider> 
+    </app-slider>  
+    <div class="duration">{{duration | timespan}}</div>
+    <button class="full-screen-button">
+      <!-- (click) = "toggleFullScreen()"
+      [ngClass]="{'exit':isFullScreen}"
+      [title]="isFullScreen?'Exit full screen':'Full screen'"> -->
+    </button>
+  </div>
+</div>

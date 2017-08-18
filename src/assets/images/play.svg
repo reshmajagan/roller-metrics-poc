@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Play</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="18_a3_Visualizer_filter" transform="translate(-648.000000, -503.000000)" fill="#FFFFFF">
+            <g id="Group-8" transform="translate(238.000000, 213.000000)">
+                <g id="data" transform="translate(0.000000, 1.000000)">
+                    <g id="player" transform="translate(410.632752, 289.923174)">
+                        <g id="MusicControlller">
+                            <g id="Group-3">
+                                <polygon id="Play" points="0 10.5187546 0 0 10.5114534 5.25937731"></polygon>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

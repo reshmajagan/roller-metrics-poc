@@ -1,0 +1,12 @@
+<div class="slider-container" #container>
+  <div class="progress-bar-background"
+  (mousedown)="clickSeek($event)">
+  </div>
+  <div class="progress-bar-foreground" #progress
+  (mousedown)="clickSeek($event)">
+  </div>
+  <div class="pointer" #pointer
+  (mousedown)="onPointerMouseDown($event)"
+  (touchstart)="onPointerTouchStart($event)">
+  </div>
+</div>

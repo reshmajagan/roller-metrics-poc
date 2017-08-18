@@ -5,12 +5,17 @@ import { HttpModule } from '@angular/http';
 
 
 import { AppComponent } from './app.component';
+import { SliderComponent } from './slider/slider.component';
 import { GOOGLE_API_KEY } from './shared/constants';
 import { LoadPathService } from './load-path.service';
+import { TimeSpanPipe } from './shared/pipes/time-span.pipe';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SliderComponent,
+    TimeSpanPipe
   ],
   imports: [
     BrowserModule,
@@ -19,6 +24,9 @@ import { LoadPathService } from './load-path.service';
       libraries: ['geometry']
     }),
     HttpModule
+  ],
+  exports: [
+    TimeSpanPipe
   ],
   providers: [
     LoadPathService

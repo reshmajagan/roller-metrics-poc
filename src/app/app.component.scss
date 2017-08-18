@@ -1,0 +1,84 @@
+$white: #FFFFFF;
+
+/* Always set the map height explicitly to define the size of the div
+  * element that contains the map. */
+.map-container {
+  height: 400px;
+  width: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Video Controls */
+.video-controls-container {
+  background-color: darkgray;
+  height: 50px;
+  width: 100%;
+}
+.video-controls {
+  width: 100%;
+  padding: 16px;
+  font-size: 12px;
+  color: $white;
+  user-select: none;
+  cursor: default;
+
+  .play-button {
+    background: transparent;
+    background-image: url('./../assets/images/play.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 16px;
+    height: 16px;
+
+    &.is-playing {
+      background-image: url('./../assets/images/pause_icon.svg');
+    }
+  }
+
+  .time-elapsed {
+    color: $white;
+    display: inline-block;
+    width: 70px;
+    text-align: right;
+    line-height: 16px;
+    position: absolute;
+    font-size: 12px;
+  }
+
+  .duration {
+    color: $white;
+    display: inline-block;
+    width: 50px;
+    text-align: left;
+    line-height: 16px;
+    position: absolute;
+    left: calc( 100% - 80px);
+    font-size: 12px;
+  }
+
+  .full-screen-button {
+    background: transparent;
+    background-image: url('./../assets/images/full_screen.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 16px;
+    &.exit {
+      background-image: url('./../assets/images/exit_fullscreen.svg');
+    }
+
+  }
+
+  .slider {
+    width: calc( 100% - 200px);
+    left: 110px;
+    position: absolute;
+  }
+}
