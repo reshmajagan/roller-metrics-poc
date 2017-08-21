@@ -45,7 +45,34 @@ export class AppComponent implements OnInit, OnChanges {
   marker: any;
   duration: number;
   timeElapsed: number = 0;
+  isVideoPlaying: boolean = false;
+  videoIndex: number = 0;
+  zoomScaleIndex: Array<any> = [];
+
   ngOnInit(): void {
+
+    this.zoomScaleIndex = [
+      {zoom: 1, polylineWidth: 1},
+      {zoom: 2, polylineWidth: 1},
+      {zoom: 3, polylineWidth: 1},
+      {zoom: 4, polylineWidth: 1},
+      {zoom: 5, polylineWidth: 1},
+      {zoom: 6, polylineWidth: 1},
+      {zoom: 7, polylineWidth: 1},
+      {zoom: 8, polylineWidth: 1},
+      {zoom: 9, polylineWidth: 1},
+      {zoom: 10, polylineWidth: 1},
+      {zoom: 11, polylineWidth: 1},
+      {zoom: 12, polylineWidth: 1},
+      {zoom: 13, polylineWidth: 1},
+      {zoom: 14, polylineWidth: 1},
+      {zoom: 15, polylineWidth: 1},
+      {zoom: 16, polylineWidth: 1.5},
+      {zoom: 17, polylineWidth: 3},
+      {zoom: 18, polylineWidth: 6},
+      {zoom: 19, polylineWidth: 12},
+      {zoom: 20, polylineWidth: 24}
+    ];
 
     this.flightPlanCoordinates = [
       {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
@@ -76,17 +103,17 @@ export class AppComponent implements OnInit, OnChanges {
       {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
       {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
       {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
-      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516}
+      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
     ];
+
     this.loadPathService.loadPath()
       .subscribe(
         data => { this.gpsData = data.gps_data;
-                  this.livePolyLines();
-
+                  this.initializeMap();
                 },
         // error => { console.log(error); }
       );
-    this.initializeMap();
+    
 
     this.duration = 30; // set this as video duration
 
@@ -112,16 +139,17 @@ export class AppComponent implements OnInit, OnChanges {
   public initializeMap() {
     GoogleMapApiLoader.load().then((res: any) => {
       let map = new google.maps.Map(this.mapElement.nativeElement, {
-        // center: {lat: 38.9948002, lng: -77.4332245},
-        center: {lat: 37.771490727946556, lng: -122.21290111541748},
+        // center: {lat: 37.771490727946556, lng: -122.21290111541748},
+        center: {lat: Number(this.gpsData[0].latitude), lng: Number(this.gpsData[0].longitude)},
         zoom: 19,
-        mapTypeId: 'satellite'
+        mapTypeId: 'satellite',
+        scaleControl: true
       });
       this.map = map;
       this.polyOptions = {
         geodesic: true,
         strokeOpacity: 1,
-        strokeWeight: 2,
+        strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
         map: this.map
       };
 
@@ -134,35 +162,37 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   public livePolyLines(): void {
+    console.log(this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth);
+    
     this.polyline = new google.maps.Polyline({
         geodesic: true,
         strokeOpacity: 1,
-        strokeWeight: 2,
+        strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
         map: this.map,
-        strokeColor: 'red'
+        strokeColor: 'yellow' // yellow color
       });
 
-    this.loopThroughPoints(0);
+    this.loopThroughPoints(this.videoIndex);
 
   }
 
   loopThroughPoints(i: number): void {
-    setTimeout(() => {
+    if (this.isVideoPlaying) {
+      setTimeout(() => {
 
-      // this.addPointToPath(this.gpsData[i]);
-      // if (++i < (this.gpsData.length)) {
-      //   this.loopThroughPoints(i);
-      // }
-      this.addPointToPath(this.flightPlanCoordinates[i]);
-      if (++i < (this.flightPlanCoordinates.length)) {
-        this.loopThroughPoints(i);
-      } else {
-        // console.log(this.passOnePolylines);
-        // console.log(this.passTwoPolylines);
-        // console.log(this.passThreePolylines);
-
-      }
-    }, (500));
+        this.addPointToPath(this.gpsData[i]);
+        if (++i < (this.gpsData.length)) {
+          this.loopThroughPoints(i);
+        }
+        // this.addPointToPath(this.flightPlanCoordinates[i]);
+        // if (++i < (this.flightPlanCoordinates.length)) {
+        //   this.loopThroughPoints(i);
+        // } else {}
+      }, (100)); /**Rough time gap between each given coordinates*/
+    } else {
+      /**For drawing a continuous path */
+      this.videoIndex = --i;
+    }
   }
 
   addPointToPath(point: any): void {
@@ -322,39 +352,40 @@ export class AppComponent implements OnInit, OnChanges {
         case 2:
           passAPolylines = this.passOnePolylines;
           passBPolylines = this.passTwoPolylines;
-          strokeColor = '#FEEB02'; // yellow color
+          strokeColor = '#00FD53'; // light green color
           break;
         case 3:
           passAPolylines = this.passTwoPolylines;
           passBPolylines = this.passThreePolylines;
-          strokeColor = '#00FD53'; // light green color
+          strokeColor = '#04BDFD'; // light blue color
           break;
         case 4:
           passAPolylines = this.passThreePolylines;
           passBPolylines = this.passFourPolylines;
-          strokeColor = '#1ABD01'; // dark green color
+          // strokeColor = '#1ABD01'; // dark green color
+          strokeColor = '#0334BC'; // dark blue color
           break;
         case 5:
           passAPolylines = this.passFourPolylines;
           passBPolylines = this.passFivePolylines;
-          strokeColor = '#04BDFD'; // light blue color
+          strokeColor = '#50007C'; // purple color
           break;
         case 6:
           passAPolylines = this.passFivePolylines;
           passBPolylines = this.passSixPolylines;
-          strokeColor = '#0334BC'; // dark blue color
+          strokeColor = 'red'; // red color
           break;
         case 7:
           passAPolylines = this.passSixPolylines;
           passBPolylines = this.passSevenPolylines;
-          strokeColor = '#50007C'; // purple color
+          strokeColor = 'brown'; // brown color
           break;
       }
 
       /**checking mid-point of polyline */
       if (midLatlng && google.maps.geometry.poly.isLocationOnEdge(midLatlng, pathPolyLine, 10e-7)) {
         /**Checking new LatLng point */
-        if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-7)) {
+        if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-10)) {
           // console.log('pass:', checkWhichPass);
 
           passAPolylines.push(this.polyline);
@@ -362,7 +393,7 @@ export class AppComponent implements OnInit, OnChanges {
           this.polyline = new google.maps.Polyline({
             geodesic: true,
             strokeOpacity: 1,
-            strokeWeight: 2,
+            strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
             map: this.map,
             strokeColor: strokeColor
           });
@@ -393,6 +424,16 @@ export class AppComponent implements OnInit, OnChanges {
       this.timeElapsed = time;
     }
     console.log(time);
+  }
+
+  /**Method to play or pause video */
+  togglePlay(): void {
+    this.isVideoPlaying = !this.isVideoPlaying;
+    if (this.isVideoPlaying) {
+      this.livePolyLines();
+    }
+    console.log(this.gpsData[this.videoIndex]);
+    
   }
 
 }

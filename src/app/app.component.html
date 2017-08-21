@@ -3,11 +3,10 @@
 
 <div class="video-controls-container">
   <div class="video-controls">
-    <button class="play-button">
-        
-      <!-- (click) = "togglePlay()"
+    <button class="play-button"
+      (click) = "togglePlay()"
       [ngClass]="{'is-playing':isVideoPlaying}"
-      [title]="isVideoPlaying?'Pause':'Play'"> -->
+      [title]="isVideoPlaying?'Pause':'Play'"> 
     </button>
     <div class="time-elapsed">{{timeElapsed | timespan}}</div> 
      <app-slider
