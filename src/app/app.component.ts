@@ -36,6 +36,8 @@ export class AppComponent implements OnInit, OnChanges {
   passSixPolylines: Array<any> = [];
   passSevenPolylines: Array<any> = [];
 
+  allPasses: Array<any> = [];
+
   polyline: any = {};
   map: any = null;
   flightPlanCoordinates: any;
@@ -48,6 +50,7 @@ export class AppComponent implements OnInit, OnChanges {
   isVideoPlaying: boolean = false;
   videoIndex: number = 0;
   zoomScaleIndex: Array<any> = [];
+  zoomLevel: number;
 
   ngOnInit(): void {
 
@@ -67,11 +70,15 @@ export class AppComponent implements OnInit, OnChanges {
       {zoom: 13, polylineWidth: 1},
       {zoom: 14, polylineWidth: 1},
       {zoom: 15, polylineWidth: 1},
-      {zoom: 16, polylineWidth: 1.5},
-      {zoom: 17, polylineWidth: 3},
-      {zoom: 18, polylineWidth: 6},
-      {zoom: 19, polylineWidth: 12},
-      {zoom: 20, polylineWidth: 24}
+      {zoom: 16, polylineWidth: 1},
+      {zoom: 17, polylineWidth: 2},
+      {zoom: 18, polylineWidth: 5},
+      {zoom: 19, polylineWidth: 10},
+      {zoom: 20, polylineWidth: 20},
+      {zoom: 21, polylineWidth: 20},
+      {zoom: 22, polylineWidth: 20},
+      {zoom: 23, polylineWidth: 20},
+      {zoom: 24, polylineWidth: 20}
     ];
 
     this.flightPlanCoordinates = [
@@ -85,51 +92,94 @@ export class AppComponent implements OnInit, OnChanges {
       {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
       {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
       {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
-      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
-      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
-      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
-      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
-      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
-      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
-      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
-      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
-      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
-      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
-      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
-      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
-      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
-      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
-      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
-      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
-      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
-      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+
     ];
+
+    this.allPasses = [
+      this.passOnePolylines,
+      this.passTwoPolylines,
+      this.passThreePolylines,
+      this.passFourPolylines,
+      this.passFivePolylines,
+      this.passSixPolylines,
+      this.passSevenPolylines
+    ];
+
+    this.initializeMap();
+    
 
     this.loadPathService.loadPath()
       .subscribe(
-        data => { this.gpsData = data.gps_data;
-                  this.initializeMap();
-                },
+        data => {
+          this.gpsData = data.gps_data;
+          this.map.setCenter(new google.maps.LatLng(Number(this.gpsData[0].latitude), Number(this.gpsData[0].longitude)));
+        },
         // error => { console.log(error); }
       );
-    
 
     this.duration = 30; // set this as video duration
-
   }
 
   // resizeMap(center: any): void {
   //   google.maps.event.trigger(this.map, 'resize');
   //   this.map.setCenter(center);
-    
   // }
-
-  ngOnChanges(changes: SimpleChanges): void {
+  
+  ngOnChanges(): void {
     // if (changes.redrawMap && !changes.redrawMap.firstChange) {
-      
     //   if (this.map) {
-        
     //     const center = this.map.getCenter();
     //     setTimeout(this.resizeMap.bind(this, center), 750);
     //   }
@@ -137,11 +187,13 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   public initializeMap() {
+    this.zoomLevel = 19; // Initial zoom level
+
     GoogleMapApiLoader.load().then((res: any) => {
       let map = new google.maps.Map(this.mapElement.nativeElement, {
         // center: {lat: 37.771490727946556, lng: -122.21290111541748},
-        center: {lat: Number(this.gpsData[0].latitude), lng: Number(this.gpsData[0].longitude)},
-        zoom: 19,
+        // center: {lat: Number(this.gpsData[0].latitude), lng: Number(this.gpsData[0].longitude)},
+        zoom: this.zoomLevel,
         mapTypeId: 'satellite',
         scaleControl: true
       });
@@ -153,18 +205,7 @@ export class AppComponent implements OnInit, OnChanges {
         map: this.map
       };
 
-      this.marker = new google.maps.Marker({
-        map: this.map
-      });
-
-    });
-
-  }
-
-  public livePolyLines(): void {
-    console.log(this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth);
-    
-    this.polyline = new google.maps.Polyline({
+      this.polyline = new google.maps.Polyline({
         geodesic: true,
         strokeOpacity: 1,
         strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
@@ -172,41 +213,58 @@ export class AppComponent implements OnInit, OnChanges {
         strokeColor: 'yellow' // yellow color
       });
 
-    this.loopThroughPoints(this.videoIndex);
+      this.marker = new google.maps.Marker({
+        map: this.map
+      });
 
+      google.maps.event.addListener(this.map, 'zoom_changed', () => {
+        let prevZoom = this.zoomLevel;
+        this.zoomLevel = this.map.getZoom();
+        if ((this.zoomLevel < 16 && prevZoom < 16) || (this.zoomLevel === prevZoom)) {
+          /**Redrawing of polylines not needed */
+        } else {
+          /**Redraw all current polylines */
+          this.removePolylines();
+          this.redrawPolylines();
+        }
+      });
+    });
   }
 
-  loopThroughPoints(i: number): void {
+  /**Method to loop through all LatLng points */
+  loopThroughPoints(index: number): void {
     if (this.isVideoPlaying) {
       setTimeout(() => {
 
-        this.addPointToPath(this.gpsData[i]);
-        if (++i < (this.gpsData.length)) {
-          this.loopThroughPoints(i);
+        this.addPointToPath(this.gpsData[index]);
+        if (++index < (this.gpsData.length)) {
+          this.loopThroughPoints(index);
         }
         // this.addPointToPath(this.flightPlanCoordinates[i]);
         // if (++i < (this.flightPlanCoordinates.length)) {
         //   this.loopThroughPoints(i);
         // } else {}
-      }, (100)); /**Rough time gap between each given coordinates*/
+      }, (100)); /**100 ms is the rough time gap between each given coordinates*/
     } else {
       /**For drawing a continuous path */
-      this.videoIndex = --i;
+      this.videoIndex = index;
     }
   }
 
+  /**Method to add LatLng point to path */
   addPointToPath(point: any): void {
     let latLngVar = new google.maps.LatLng(point.latitude, point.longitude);
 
     let path, tempPath, len, prevLatlng, startPoint, endPoint, midPoint, midLatlng, pathPolyLine, index, prevPolyline, checkWhichPass;
     let projection = this.map.getProjection();
+    let passXPolylines;
     /**Finding mid-point of polyline */
     tempPath = this.polyline.getPath();
     len = tempPath.getLength();
     prevLatlng = tempPath.getAt(len - 1);
     midLatlng = null;
     if (prevLatlng) {
-      /**If polyline path is not null */
+      /**If polyline path is not null calculate mid-point*/
       startPoint = projection.fromLatLngToPoint(prevLatlng);
       endPoint = projection.fromLatLngToPoint(latLngVar);
       midPoint = new google.maps.Point(
@@ -216,118 +274,33 @@ export class AppComponent implements OnInit, OnChanges {
       midLatlng = projection.fromPointToLatLng(midPoint);
     }
 
-    /**Check for Pass 7 */
-    index = 0;
-    while (this.passSevenPolylines && this.passSevenPolylines[index] /*&& (this.passNumber === 0)*/) {
+    /**Loop to check each pass, from Pass 7 to Pass 1 */
+    for (let i = 7; i > 0; i--) {
+      index = 0;
+      passXPolylines = this.allPasses[i - 1];
+      while (passXPolylines && passXPolylines[index]) {
 
-      path = this.passSevenPolylines[index].getPath();
-      pathPolyLine = new google.maps.Polyline({
-        path: path
-      });
-      checkWhichPass = 7;
-      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
-      if (checkWhichPass > 0) {
-        break;
+        path = passXPolylines[index].getPath();
+        pathPolyLine = new google.maps.Polyline({
+          path: path
+        });
+        if (i === 7) {
+          /**For last pass */
+          checkWhichPass = i;
+        } else {
+          /**For all other passes */
+          checkWhichPass = i + 1;
+        }
+
+        checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
+        if (checkWhichPass > 0) {
+          break;
+        }
+        index++;
       }
-      index++;
     }
 
-    index = 0;
-    while (this.passSixPolylines && this.passSixPolylines[index] /*&& (this.passNumber === 0)*/) {
-
-      path = this.passSixPolylines[index].getPath();
-      pathPolyLine = new google.maps.Polyline({
-        path: path
-      });
-      checkWhichPass = 7;
-      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
-      if (checkWhichPass > 0) {
-        break;
-      }
-      index++;
-
-    }
-    /**Check for Pass 6 */
-    index = 0;
-    while (this.passFivePolylines && this.passFivePolylines[index] /*&& (this.passNumber === 0)*/) {
-
-      path = this.passFivePolylines[index].getPath();
-      pathPolyLine = new google.maps.Polyline({
-        path: path
-      });
-      checkWhichPass = 6;
-      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
-      if (checkWhichPass > 0) {
-        break;
-      }
-      index++;
-
-    }
-    /**Check for Pass 5 */
-    index = 0;
-    while (this.passFourPolylines && this.passFourPolylines[index] /*&& (this.passNumber === 0)*/) {
-
-      path = this.passFourPolylines[index].getPath();
-      pathPolyLine = new google.maps.Polyline({
-        path: path
-      });
-      checkWhichPass = 5;
-      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
-      if (checkWhichPass > 0) {
-        break;
-      }
-      index++;
-
-    }
-    /**Check for Pass 4 */
-    index = 0;
-    while (this.passThreePolylines && this.passThreePolylines[index] /*&& (this.passNumber === 0)*/) {
-
-      path = this.passThreePolylines[index].getPath();
-      pathPolyLine = new google.maps.Polyline({
-        path: path
-      });
-      checkWhichPass = 4;
-      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
-      if (checkWhichPass > 0) {
-        break;
-      }
-      index++;
-
-    }
-    /**Check for Pass 3 */
-    index = 0;
-    while (this.passTwoPolylines && this.passTwoPolylines[index] /*&& (this.passNumber === 0)*/) {
-
-      path = this.passTwoPolylines[index].getPath();
-      pathPolyLine = new google.maps.Polyline({
-        path: path
-      });
-      checkWhichPass = 3;
-      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
-      if (checkWhichPass > 0) {
-        break;
-      }
-      index++;
-
-    }
-    /**Check for Pass 2 */
-    index = 0;
-    while (this.passOnePolylines && this.passOnePolylines[index] /*&& (this.passNumber === 0)*/) {
-      path = this.passOnePolylines[index].getPath();
-      pathPolyLine = new google.maps.Polyline({
-        path: path
-      });
-      checkWhichPass = 2;
-      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
-      if (checkWhichPass > 0) {
-        break;
-      }
-      index++;
-
-    }
-
-    /**Check for Pass 1 */
+    /**Check for Pass 0 */
     if (this.passNumber === 0) {
       checkWhichPass = 2;
       checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, this.polyline, checkWhichPass);
@@ -345,6 +318,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   }
 
+  /**Method to find pass number of path being drawn */
   checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass): number {
     let passAPolylines, passBPolylines, strokeColor, tempPath, path, prevLatLng, len;
       switch (checkWhichPass) {
@@ -386,8 +360,6 @@ export class AppComponent implements OnInit, OnChanges {
       if (midLatlng && google.maps.geometry.poly.isLocationOnEdge(midLatlng, pathPolyLine, 10e-7)) {
         /**Checking new LatLng point */
         if (google.maps.geometry.poly.isLocationOnEdge(latLngVar, pathPolyLine, 10e-10)) {
-          // console.log('pass:', checkWhichPass);
-
           passAPolylines.push(this.polyline);
 
           this.polyline = new google.maps.Polyline({
@@ -415,25 +387,46 @@ export class AppComponent implements OnInit, OnChanges {
       }
 
       return checkWhichPass;
-
-
   }
 
   seek(time: number): void {
     if (time <= this.duration) {
       this.timeElapsed = time;
     }
-    console.log(time);
   }
 
   /**Method to play or pause video */
   togglePlay(): void {
     this.isVideoPlaying = !this.isVideoPlaying;
     if (this.isVideoPlaying) {
-      this.livePolyLines();
-    }
-    console.log(this.gpsData[this.videoIndex]);
-    
+      this.loopThroughPoints(this.videoIndex);
+    } else {}
   }
+
+  /**Method to remove all polyline passes */
+  removePolylines(): void {
+    this.allPasses.forEach(eachPass => {
+      eachPass.forEach(eachPolyline => {
+        eachPolyline.setVisible(false);
+      });
+    });
+
+    /**Setting current polyline as null */
+    this.polyline.setVisible(false);
+  }
+
+  /**Method to redraw polylines having width in accordance with zoomlevel */
+  redrawPolylines(): void {
+    this.allPasses.forEach(eachPass => {
+      eachPass.forEach(eachPolyline => {
+        eachPolyline.strokeWeight = this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth;
+        eachPolyline.setVisible(true);
+      });
+    });
+    /**Redrawing current polyline */
+    this.polyline.strokeWeight = this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth;
+    this.polyline.setVisible(true);
+  }
+
 
 }
