@@ -54,6 +54,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
+    /**Considering width of Asphalt roller as 2 meters*/
     this.zoomScaleIndex = [
       {zoom: 1, polylineWidth: 1},
       {zoom: 2, polylineWidth: 1},
@@ -71,14 +72,14 @@ export class AppComponent implements OnInit, OnChanges {
       {zoom: 14, polylineWidth: 1},
       {zoom: 15, polylineWidth: 1},
       {zoom: 16, polylineWidth: 1},
-      {zoom: 17, polylineWidth: 2},
-      {zoom: 18, polylineWidth: 5},
-      {zoom: 19, polylineWidth: 10},
-      {zoom: 20, polylineWidth: 20},
-      {zoom: 21, polylineWidth: 20},
-      {zoom: 22, polylineWidth: 20},
-      {zoom: 23, polylineWidth: 20},
-      {zoom: 24, polylineWidth: 20}
+      {zoom: 17, polylineWidth: 1},
+      {zoom: 18, polylineWidth: 3},
+      {zoom: 19, polylineWidth: 6},
+      {zoom: 20, polylineWidth: 12},
+      {zoom: 21, polylineWidth: 24},
+      {zoom: 22, polylineWidth: 24},
+      {zoom: 23, polylineWidth: 24},
+      {zoom: 24, polylineWidth: 24}
     ];
 
     this.flightPlanCoordinates = [
@@ -102,6 +103,27 @@ export class AppComponent implements OnInit, OnChanges {
       {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
       {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
       {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
+
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21463067626953},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21432222223282},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21404327249527},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21393866634369},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21390111541748},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21383942461014},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21375895833969},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21365971660614},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21364094114304},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21380455589294},
+      {index: 10, latitude: 37.77160733767927, longitude: -122.21380455589294},
+      {index: 9, latitude: 37.77181299439602, longitude: -122.21364094114304},
+      {index: 8, latitude: 37.77181935490393, longitude:  -122.21365971660614},
+      {index: 7, latitude: 37.77168790429624, longitude: -122.21375895833969},
+      {index: 6, latitude: 37.7715712946906, longitude: -122.21383942461014},
+      {index: 5, latitude: 37.771490727946556, longitude: -122.21390111541748},
+      {index: 4, latitude: 37.77149284812515, longitude: -122.21393866634369},
+      {index: 3, latitude: 37.77154161221617, longitude: -122.21404327249527},
+      {index: 2, latitude: 37.771664582389846, longitude:  -122.21432222223282},
+      {index: 1, latitude: 37.77184903726687, longitude: -122.21463067626953},
 
     ];
 
@@ -149,7 +171,6 @@ export class AppComponent implements OnInit, OnChanges {
     GoogleMapApiLoader.load().then((res: any) => {
       let map = new google.maps.Map(this.mapElement.nativeElement, {
         // center: {lat: 37.771490727946556, lng: -122.21290111541748},
-        // center: {lat: Number(this.gpsData[0].latitude), lng: Number(this.gpsData[0].longitude)},
         zoom: this.zoomLevel,
         mapTypeId: 'satellite',
         scaleControl: true
@@ -191,6 +212,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   /**Method to loop through all LatLng points */
   loopThroughPoints(index: number): void {
+    this.videoIndex = index;
     if (this.isVideoPlaying) {
       setTimeout(() => {
 
@@ -205,7 +227,6 @@ export class AppComponent implements OnInit, OnChanges {
       }, (100)); /**100 ms is the rough time gap between each given coordinates*/
     } else {
       /**For drawing a continuous path */
-      this.videoIndex = index;
     }
   }
 
@@ -213,9 +234,9 @@ export class AppComponent implements OnInit, OnChanges {
   addPointToPath(point: any): void {
     let latLngVar = new google.maps.LatLng(point.latitude, point.longitude);
 
-    let path, tempPath, len, prevLatlng, startPoint, endPoint, midPoint, midLatlng, pathPolyLine, index, prevPolyline, checkWhichPass;
+    let path, tempPath, len, prevLatlng, startPoint, endPoint, midPoint, midLatlng;
     let projection = this.map.getProjection();
-    let passXPolylines;
+    let passXPolylines, pathPolyLine, index, prevPolyline, checkWhichPass;
     /**Finding mid-point of polyline */
     tempPath = this.polyline.getPath();
     len = tempPath.getLength();
@@ -250,37 +271,50 @@ export class AppComponent implements OnInit, OnChanges {
           checkWhichPass = i + 1;
         }
 
-        checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
-        if (checkWhichPass > 0) {
+        this.passNumber = this.checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass);
+        if (this.passNumber > 0) {
           break;
         }
         index++;
       }
     }
 
-    /**Check for Pass 0 */
+    /**Check for Pass 1 */
     if (this.passNumber === 0) {
-      checkWhichPass = 2;
-      checkWhichPass = this.checkNewPoint(midLatlng, latLngVar, this.polyline, checkWhichPass);
-      if (checkWhichPass === 0) {
-        tempPath = this.polyline.getPath();
-        tempPath.push(latLngVar);
+      let prevLatLng;
+      this.passOnePolylines.push(this.polyline);
+      this.polyline = new google.maps.Polyline({
+        geodesic: true,
+        strokeOpacity: 1,
+        strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
+        map: this.map,
+        strokeColor: 'yellow',
+        zIndex: 1 // set zIndex as pass number for each path
+      });
+      tempPath = this.passOnePolylines[this.passOnePolylines.length - 1].getPath();
+      len = tempPath.getLength();
+      path = this.polyline.getPath();
+      if (len > 0) {
+        prevLatLng = tempPath.getAt(len - 1);
+        path.push(prevLatLng);
       }
+      path.push(latLngVar);
+      this.passOnePolylines.push(this.polyline);
     }
 
-    this.marker.setMap(null);
-    this.marker = new google.maps.Marker({
-      position: latLngVar,
-      map: this.map
-    });
-
+    if (this.videoIndex % 2 === 0) { // Make marker null based on time gap with actual data
+      this.marker.setMap(null);
+      this.marker = new google.maps.Marker({
+        position: latLngVar,
+        map: this.map
+      });
+    }
   }
 
   /**Method to find pass number of path being drawn */
   checkNewPoint(midLatlng, latLngVar, pathPolyLine, checkWhichPass): number {
-    let passAPolylines, passBPolylines, strokeColor, tempPath, path, prevLatLng, len;
+    let passAPolylines, passBPolylines, newPolyline, strokeColor, tempPath, path, prevLatLng, len;
       switch (checkWhichPass) {
-
         case 2:
           passAPolylines = this.passOnePolylines;
           passBPolylines = this.passTwoPolylines;
@@ -326,7 +360,7 @@ export class AppComponent implements OnInit, OnChanges {
             strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
             map: this.map,
             strokeColor: strokeColor,
-            zIndex: checkWhichPass
+            zIndex: checkWhichPass // set zIndex as pass number for each path
           });
           tempPath = passAPolylines[passAPolylines.length - 1].getPath();
           len = tempPath.getLength();
