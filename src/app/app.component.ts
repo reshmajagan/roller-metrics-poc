@@ -103,48 +103,6 @@ export class AppComponent implements OnInit, OnChanges {
       {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
       {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
 
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-
     ];
 
     this.allPasses = [
@@ -158,7 +116,6 @@ export class AppComponent implements OnInit, OnChanges {
     ];
 
     this.initializeMap();
-    
 
     this.loadPathService.loadPath()
       .subscribe(
@@ -202,7 +159,8 @@ export class AppComponent implements OnInit, OnChanges {
         geodesic: true,
         strokeOpacity: 1,
         strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
-        map: this.map
+        map: this.map,
+        zIndex: 1
       };
 
       this.polyline = new google.maps.Polyline({
@@ -210,9 +168,9 @@ export class AppComponent implements OnInit, OnChanges {
         strokeOpacity: 1,
         strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
         map: this.map,
-        strokeColor: 'yellow' // yellow color
+        strokeColor: 'yellow', // yellow color
+        zIndex: 1
       });
-
       this.marker = new google.maps.Marker({
         map: this.map
       });
@@ -240,9 +198,9 @@ export class AppComponent implements OnInit, OnChanges {
         if (++index < (this.gpsData.length)) {
           this.loopThroughPoints(index);
         }
-        // this.addPointToPath(this.flightPlanCoordinates[i]);
-        // if (++i < (this.flightPlanCoordinates.length)) {
-        //   this.loopThroughPoints(i);
+        // this.addPointToPath(this.flightPlanCoordinates[index]);
+        // if (++index < (this.flightPlanCoordinates.length)) {
+        //   this.loopThroughPoints(index);
         // } else {}
       }, (100)); /**100 ms is the rough time gap between each given coordinates*/
     } else {
@@ -367,9 +325,9 @@ export class AppComponent implements OnInit, OnChanges {
             strokeOpacity: 1,
             strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
             map: this.map,
-            strokeColor: strokeColor
+            strokeColor: strokeColor,
+            zIndex: checkWhichPass
           });
-
           tempPath = passAPolylines[passAPolylines.length - 1].getPath();
           len = tempPath.getLength();
           path = this.polyline.getPath();
