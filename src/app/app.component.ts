@@ -302,12 +302,15 @@ export class AppComponent implements OnInit, OnChanges {
       this.passOnePolylines.push(this.polyline);
     }
 
-    if (this.videoIndex % 2 === 0) { // Make marker null based on time gap with actual data
-      this.marker.setMap(null);
+
+    if (this.videoIndex % 2 === 0) {
+      this.marker.setMap(null); // Make marker null based on time gap with actual data
       this.marker = new google.maps.Marker({
         position: latLngVar,
         map: this.map
       });
+      this.map.setCenter(latLngVar); // set map center as current point
+
     }
   }
 
