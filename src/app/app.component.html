@@ -3,23 +3,28 @@
 
 <div class="video-controls-container">
   <div class="video-controls">
+    <span *ngIf="!isVideoPlaying">Play</span>
+    <span *ngIf="isVideoPlaying">Pause</span>
     <button class="play-button"
       (click) = "togglePlay()"
       [ngClass]="{'is-playing':isVideoPlaying}"
-      [title]="isVideoPlaying?'Pause':'Play'"> 
+      [title]="isVideoPlaying?'Pause':'Play'"
+      #playButton>
     </button>
-    <div class="time-elapsed">{{timeElapsed | timespan}}</div> 
+
+    
+    <!-- <div class="time-elapsed">{{timeElapsed | timespan}}</div> 
      <app-slider
       [value]="timeElapsed || 0"
       [max]="duration || 0"
       (valueChange) = "seek($event)"
       class="slider" #slider> 
     </app-slider>  
-    <div class="duration">{{duration | timespan}}</div>
-    <button class="full-screen-button">
-      <!-- (click) = "toggleFullScreen()"
+    <div class="duration">{{duration | timespan}}</div> -->
+    <!-- <button class="full-screen-button">
+      (click) = "toggleFullScreen()"
       [ngClass]="{'exit':isFullScreen}"
-      [title]="isFullScreen?'Exit full screen':'Full screen'"> -->
-    </button>
+      [title]="isFullScreen?'Exit full screen':'Full screen'">
+    </button> -->
   </div>
 </div>

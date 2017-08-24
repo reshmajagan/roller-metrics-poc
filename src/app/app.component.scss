@@ -3,7 +3,7 @@ $white: #FFFFFF;
 /* Always set the map height explicitly to define the size of the div
   * element that contains the map. */
 .map-container {
-  height: 500px;
+  height: 600px;
   width: 100%;
 }
 /* Optional: Makes the sample page fill the window. */
@@ -32,12 +32,21 @@ html, body {
     background-image: url('./../assets/images/play.svg');
     background-repeat: no-repeat;
     background-size: contain;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
+    border-style: none;
+    outline-style: none;
+    float: right;
+    margin-right: 47.5%;
 
     &.is-playing {
       background-image: url('./../assets/images/pause_icon.svg');
     }
+  }
+
+  & span {
+    margin-left: 47%;
+    font-size: 20px;
   }
 
   .time-elapsed {
@@ -66,10 +75,12 @@ html, body {
     background-image: url('./../assets/images/full_screen.svg');
     background-size: contain;
     background-repeat: no-repeat;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     position: absolute;
     right: 16px;
+    border-style: none;
+    outline-style: none;
     &.exit {
       background-image: url('./../assets/images/exit_fullscreen.svg');
     }
@@ -78,7 +89,7 @@ html, body {
 
   .slider {
     width: calc( 100% - 200px);
-    left: 110px;
+    left: 115px;
     position: absolute;
   }
 }

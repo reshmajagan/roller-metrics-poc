@@ -2,8 +2,10 @@ import {
   Component,
   OnInit,
   OnChanges,
+  AfterViewInit,
   ViewChild,
-  SimpleChanges
+  SimpleChanges,
+  ElementRef
 } from '@angular/core';
 
 import { GoogleMapApiLoader } from './shared/google-map-api-loader';
@@ -19,13 +21,14 @@ declare var google: any;
 })
 
 
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     private loadPathService: LoadPathService
   ) {}
 
   @ViewChild('map') mapElement: any;
   @ViewChild('slider') slider: SliderComponent;
+  @ViewChild('playButton') playButton: ElementRef;
 
   title = 'app';
   passOnePolylines: Array<any> = [];
@@ -51,6 +54,7 @@ export class AppComponent implements OnInit, OnChanges {
   videoIndex: number = 0;
   zoomScaleIndex: Array<any> = [];
   zoomLevel: number;
+  mapDragged: boolean = false;
 
   ngOnInit(): void {
 
@@ -144,18 +148,24 @@ export class AppComponent implements OnInit, OnChanges {
         data => {
           this.gpsData = data.gps_data;
           this.map.setCenter(new google.maps.LatLng(Number(this.gpsData[0].latitude), Number(this.gpsData[0].longitude)));
-        },
-        // error => { console.log(error); }
-      );
+          /**Set duration of video*/
+          this.duration = this.gpsData[this.gpsData.length - 1].rtc_time - this.gpsData[0].rtc_time; // set this as video duration
+          this.playButton.nativeElement.disabled = false;
 
-    this.duration = 30; // set this as video duration
+        },
+        error => { console.log(error); }
+      );
+  }
+
+  ngAfterViewInit(): void {
+    this.playButton.nativeElement.disabled = true;
   }
 
   // resizeMap(center: any): void {
   //   google.maps.event.trigger(this.map, 'resize');
   //   this.map.setCenter(center);
   // }
-  
+
   ngOnChanges(): void {
     // if (changes.redrawMap && !changes.redrawMap.firstChange) {
     //   if (this.map) {
@@ -207,16 +217,27 @@ export class AppComponent implements OnInit, OnChanges {
           this.redrawPolylines();
         }
       });
+
+      /**Recenter map 2 seconds after dragging ends*/
+      google.maps.event.addListener(this.map, 'dragstart', () => {
+        this.mapDragged = true;
+      });
+      google.maps.event.addListener(this.map, 'dragend', () => {
+        setTimeout(() => {
+          this.mapDragged = false;
+        }, 2000);
+      });
     });
   }
 
   /**Method to loop through all LatLng points */
   loopThroughPoints(index: number): void {
     this.videoIndex = index;
+    let latLngVar = new google.maps.LatLng(this.gpsData[index].latitude, this.gpsData[index].longitude);
     if (this.isVideoPlaying) {
       setTimeout(() => {
 
-        this.addPointToPath(this.gpsData[index]);
+        this.addPointToPath(latLngVar);
         if (++index < (this.gpsData.length)) {
           this.loopThroughPoints(index);
         }
@@ -225,14 +246,22 @@ export class AppComponent implements OnInit, OnChanges {
         //   this.loopThroughPoints(index);
         // } else {}
       }, (100)); /**100 ms is the rough time gap between each given coordinates*/
+
+        this.marker.setPosition(latLngVar);
+
+        if (!this.mapDragged) {
+          /**set current point as map center if map is not dragged*/
+          this.map.setCenter(latLngVar);
+        }
+      // }
+
     } else {
       /**For drawing a continuous path */
     }
   }
 
   /**Method to add LatLng point to path */
-  addPointToPath(point: any): void {
-    let latLngVar = new google.maps.LatLng(point.latitude, point.longitude);
+  addPointToPath(latLngVar: any): void {
 
     let path, tempPath, len, prevLatlng, startPoint, endPoint, midPoint, midLatlng;
     let projection = this.map.getProjection();
@@ -302,16 +331,6 @@ export class AppComponent implements OnInit, OnChanges {
       this.passOnePolylines.push(this.polyline);
     }
 
-
-    if (this.videoIndex % 2 === 0) {
-      this.marker.setMap(null); // Make marker null based on time gap with actual data
-      this.marker = new google.maps.Marker({
-        position: latLngVar,
-        map: this.map
-      });
-      this.map.setCenter(latLngVar); // set map center as current point
-
-    }
   }
 
   /**Method to find pass number of path being drawn */
