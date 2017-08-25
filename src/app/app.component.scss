@@ -3,7 +3,7 @@ $white: #FFFFFF;
 /* Always set the map height explicitly to define the size of the div
   * element that contains the map. */
 .map-container {
-  height: 600px;
+  height: 570px;
   width: 100%;
 }
 /* Optional: Makes the sample page fill the window. */
@@ -15,7 +15,7 @@ html, body {
 
 /* Video Controls */
 .video-controls-container {
-  background-color: darkgray;
+  background-color: gray;
   height: 50px;
   width: 100%;
 }
@@ -38,6 +38,7 @@ html, body {
     outline-style: none;
     float: right;
     margin-right: 47.5%;
+    cursor: pointer;
 
     &.is-playing {
       background-image: url('./../assets/images/pause_icon.svg');
