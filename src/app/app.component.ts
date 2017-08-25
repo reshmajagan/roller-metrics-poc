@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  OnChanges,
   AfterViewInit,
   ViewChild,
   SimpleChanges,
@@ -21,7 +20,7 @@ declare var google: any;
 })
 
 
-export class AppComponent implements OnInit, OnChanges, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     private loadPathService: LoadPathService
   ) {}
@@ -58,77 +57,33 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit(): void {
 
-    /**Considering width of Asphalt roller as 2 meters*/
+    /**Considering width of Asphalt roller as 2 meters,
+     * width of line is calculated from meters/pixel values for various zoom levels*/
     this.zoomScaleIndex = [
-      {zoom: 1, polylineWidth: 1},
-      {zoom: 2, polylineWidth: 1},
-      {zoom: 3, polylineWidth: 1},
-      {zoom: 4, polylineWidth: 1},
-      {zoom: 5, polylineWidth: 1},
-      {zoom: 6, polylineWidth: 1},
-      {zoom: 7, polylineWidth: 1},
-      {zoom: 8, polylineWidth: 1},
-      {zoom: 9, polylineWidth: 1},
-      {zoom: 10, polylineWidth: 1},
-      {zoom: 11, polylineWidth: 1},
-      {zoom: 12, polylineWidth: 1},
-      {zoom: 13, polylineWidth: 1},
-      {zoom: 14, polylineWidth: 1},
-      {zoom: 15, polylineWidth: 1},
-      {zoom: 16, polylineWidth: 1},
-      {zoom: 17, polylineWidth: 1},
-      {zoom: 18, polylineWidth: 3},
-      {zoom: 19, polylineWidth: 6},
-      {zoom: 20, polylineWidth: 12},
-      {zoom: 21, polylineWidth: 24},
-      {zoom: 22, polylineWidth: 24},
-      {zoom: 23, polylineWidth: 24},
-      {zoom: 24, polylineWidth: 24}
-    ];
-
-    this.flightPlanCoordinates = [
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21463067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21432222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21404327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21393866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21390111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21383942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21375895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21365971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21364094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21380455589294},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21380455589294},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21364094114304},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21365971660614},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21375895833969},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21383942461014},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21390111541748},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21393866634369},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21404327249527},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21432222223282},
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21463067626953},
-
+      {zoom: 1, polylineWidth: 0.001},
+      {zoom: 2, polylineWidth: 0.001},
+      {zoom: 3, polylineWidth: 0.001},
+      {zoom: 4, polylineWidth: 0.001},
+      {zoom: 5, polylineWidth: 0.001},
+      {zoom: 6, polylineWidth: 0.001},
+      {zoom: 7, polylineWidth: 0.001},
+      {zoom: 8, polylineWidth: 0.003},
+      {zoom: 9, polylineWidth: 0.006},
+      {zoom: 10, polylineWidth: 0.013},
+      {zoom: 11, polylineWidth: 0.026},
+      {zoom: 12, polylineWidth: 0.052},
+      {zoom: 13, polylineWidth: 0.104},
+      {zoom: 14, polylineWidth: 0.209},
+      {zoom: 15, polylineWidth: 0.419},
+      {zoom: 16, polylineWidth: 0.838},
+      {zoom: 17, polylineWidth: 1.676},
+      {zoom: 18, polylineWidth: 3.356},
+      {zoom: 19, polylineWidth: 6.711},
+      {zoom: 20, polylineWidth: 13.423},
+      {zoom: 21, polylineWidth: 26.846},
+      {zoom: 22, polylineWidth: 53.691},
+      {zoom: 23, polylineWidth: 107.382},
+      {zoom: 24, polylineWidth: 214.765}
     ];
 
     this.allPasses = [
@@ -161,32 +116,17 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
     this.playButton.nativeElement.disabled = true;
   }
 
-  // resizeMap(center: any): void {
-  //   google.maps.event.trigger(this.map, 'resize');
-  //   this.map.setCenter(center);
-  // }
-
-  ngOnChanges(): void {
-    // if (changes.redrawMap && !changes.redrawMap.firstChange) {
-    //   if (this.map) {
-    //     const center = this.map.getCenter();
-    //     setTimeout(this.resizeMap.bind(this, center), 750);
-    //   }
-    // }
-  }
-
   public initializeMap() {
     this.zoomLevel = 19; // Initial zoom level
 
     GoogleMapApiLoader.load().then((res: any) => {
       let map = new google.maps.Map(this.mapElement.nativeElement, {
-        // center: {lat: 37.771490727946556, lng: -122.21290111541748},
         zoom: this.zoomLevel,
         mapTypeId: 'satellite',
         scaleControl: true
       });
       this.map = map;
-      this.polyOptions = {
+      this.polyOptions = { // Also consider PolylineOptions object
         geodesic: true,
         strokeOpacity: 1,
         strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
@@ -213,7 +153,7 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
           /**Redrawing of polylines not needed */
         } else {
           /**Redraw all current polylines */
-          this.removePolylines();
+          this.hidePolylines();
           this.redrawPolylines();
         }
       });
@@ -240,11 +180,11 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
         this.addPointToPath(latLngVar);
         if (++index < (this.gpsData.length)) {
           this.loopThroughPoints(index);
+        } else {
+          /**Stop playing video*/
+          this.isVideoPlaying = false;
+          this.videoIndex = -1;
         }
-        // this.addPointToPath(this.flightPlanCoordinates[index]);
-        // if (++index < (this.flightPlanCoordinates.length)) {
-        //   this.loopThroughPoints(index);
-        // } else {}
       }, (100)); /**100 ms is the rough time gap between each given coordinates*/
 
         this.marker.setPosition(latLngVar);
@@ -253,8 +193,6 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
           /**set current point as map center if map is not dragged*/
           this.map.setCenter(latLngVar);
         }
-      // }
-
     } else {
       /**For drawing a continuous path */
     }
@@ -403,22 +341,20 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
       return checkWhichPass;
   }
 
-  seek(time: number): void {
-    if (time <= this.duration) {
-      this.timeElapsed = time;
-    }
-  }
-
   /**Method to play or pause video */
   togglePlay(): void {
     this.isVideoPlaying = !this.isVideoPlaying;
     if (this.isVideoPlaying) {
+      if (this.videoIndex === -1) {
+        /**To restart drawing roller path */
+        window.location.reload();
+      }
       this.loopThroughPoints(this.videoIndex);
     } else {}
   }
 
-  /**Method to remove all polyline passes */
-  removePolylines(): void {
+  /**Method to hide all polyline passes */
+  hidePolylines(): void {
     this.allPasses.forEach(eachPass => {
       eachPass.forEach(eachPolyline => {
         eachPolyline.setVisible(false);
