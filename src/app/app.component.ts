@@ -60,6 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     /**Considering width of Asphalt roller as 2 meters,
      * width of line is calculated from meters/pixel values for various zoom levels*/
     this.zoomScaleIndex = [
+<<<<<<< HEAD
       {zoom: 1, polylineWidth: 0.001},
       {zoom: 2, polylineWidth: 0.001},
       {zoom: 3, polylineWidth: 0.001},
@@ -84,6 +85,32 @@ export class AppComponent implements OnInit, AfterViewInit {
       {zoom: 22, polylineWidth: 53.691},
       {zoom: 23, polylineWidth: 107.382},
       {zoom: 24, polylineWidth: 214.765}
+=======
+      {zoom: 1, polylineWidth: 1},
+      {zoom: 2, polylineWidth: 1},
+      {zoom: 3, polylineWidth: 1},
+      {zoom: 4, polylineWidth: 1},
+      {zoom: 5, polylineWidth: 1},
+      {zoom: 6, polylineWidth: 1},
+      {zoom: 7, polylineWidth: 1},
+      {zoom: 8, polylineWidth: 1},
+      {zoom: 9, polylineWidth: 1},
+      {zoom: 10, polylineWidth: 1},
+      {zoom: 11, polylineWidth: 1},
+      {zoom: 12, polylineWidth: 1},
+      {zoom: 13, polylineWidth: 1},
+      {zoom: 14, polylineWidth: 1},
+      {zoom: 15, polylineWidth: 1},
+      {zoom: 16, polylineWidth: 1},
+      {zoom: 17, polylineWidth: 1},
+      {zoom: 18, polylineWidth: 3},
+      {zoom: 19, polylineWidth: 6},
+      {zoom: 20, polylineWidth: 12},
+      {zoom: 21, polylineWidth: 24},
+      {zoom: 22, polylineWidth: 24},
+      {zoom: 23, polylineWidth: 24},
+      {zoom: 24, polylineWidth: 24}
+>>>>>>> d170028f34af519c962a850ca5055baf72501773
     ];
 
     this.allPasses = [
