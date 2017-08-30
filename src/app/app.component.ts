@@ -498,11 +498,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
 
       /**checking mid-point of polyline */
-      if (midLatlng && google.maps.geometry.poly.isLocationOnEdge(midLatlng, pathPolyLine, 1e-5)) {
+      if (midLatlng && google.maps.geometry.poly.isLocationOnEdge(midLatlng, pathPolyLine, 2e-5)) {
         /**Checking new LatLng point */
-        if (google.maps.geometry.poly.isLocationOnEdge(newLatLng, pathPolyLine, 1e-5)) {
+        if (google.maps.geometry.poly.isLocationOnEdge(newLatLng, pathPolyLine, 1e-5)) { // 1e-5 range equals to 1 meter range(approx.)
           passAPolylines.push(this.polyline);
-          console.log('b4');
           this.polyline = new google.maps.Polyline({
             geodesic: true,
             strokeOpacity: 1,
@@ -511,27 +510,17 @@ export class AppComponent implements OnInit, AfterViewInit {
             map: this.map,
             zIndex: checkWhichPass // set zIndex as pass number for each path
           });
-          /**Checking if new point is within the tolerance level distance*/
-          if (lastPolyline && secondLastLatLng && google.maps.geometry.poly.isLocationOnEdge(newLatLng, lastPolyline, 2.5e-5)) {
-            console.log('gottcha');
-            oldSlope = (lastLatLng.lat() - secondLastLatLng.lat()) / (lastLatLng.lng() - secondLastLatLng.lng());
-            newSlope = (newLatLng.lat() - lastLatLng.lat()) / (newLatLng.lng() - lastLatLng.lng());
-            /**If newSlope = oldSlope approx. */
-            if ( (newSlope > (0.95 * oldSlope) && newSlope < (1.05 * oldSlope)) &&
-            ( ((lastLatLng.lat() - secondLastLatLng.lat()) <= 0 && (newLatLng.lat() - lastLatLng.lat()) > 0) ||
-            ((lastLatLng.lat() - secondLastLatLng.lat()) > 0 && (newLatLng.lat() - lastLatLng.lat()) <= 0)))  {
-                strokeColor = this.passColors[checkWhichPass - 1].color;
-            } else {
-              if (this.passColors[checkWhichPass - 2]) {
-                strokeColor = this.passColors[checkWhichPass - 2].color;
-                console.log('#a', checkWhichPass, strokeColor);
-              }
-            }
-            this.polyline.setOptions({
-              strokeColor: strokeColor
-            });
-
-          }
+          
+          /**Ignore points within tolerance level */
+          let tempPolyline = pathPolyLine;
+          let tempLastLine = new google.maps.Polyline({
+            map: this.map,
+          });
+          let tempPathA = tempPolyline.getPath();
+          let tempPathB = tempLastLine.getPath();
+          tempPathB.push(tempPathA[tempPathA.length - 2]);
+          tempPathB.push(tempPathA.pop());
+          //  .... continue
 
           tempPath = passAPolylines[passAPolylines.length - 1].getPath();
           len = tempPath.getLength();
