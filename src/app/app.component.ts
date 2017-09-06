@@ -55,6 +55,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   zoomLevel: number;
   mapDragged: boolean = false;
   passColors: Array<any> = [];
+  midLatlng: any;
+  newLatLng: any;
+  lastLatLng: any;
+  secondLastLatLng: any;
+  pathPolyLine: any;
+  lastPolyline: any;
+  checkWhichPass: number;
+  lastLineLatLngOne: any = null;
+  lastLineLatLngTwo: any = null;
+  
   ngOnInit(): void {
 
     this.flightPlanCoordinates = [
@@ -252,13 +262,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     ];
 
     this.passColors = [
-      {pass: 1, color: 'yellow'},
-      {pass: 2, color: '#00FD53'},
-      {pass: 3, color: '#04BDFD'},
-      {pass: 4, color: '#0334BC'},
-      {pass: 5, color: '#50007C'},
-      {pass: 6, color: 'red'},
-      {pass: 7, color: 'brown'}
+      {pass: 1, color: 'red'},
+      {pass: 2, color: 'yellow'},
+      {pass: 3, color: 'lime'},
+      {pass: 4, color: 'green'},
+      {pass: 5, color: 'deepskyblue'},
+      {pass: 6, color: 'blue'},
+      {pass: 7, color: 'purple'}
     ];
 
     this.allPasses = [
@@ -318,7 +328,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         strokeOpacity: 1,
         strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
         map: this.map,
-        strokeColor: 'yellow', // yellow color
+        strokeColor: 'red',
         zIndex: 1
       });
       this.marker = new google.maps.Marker({
@@ -328,13 +338,13 @@ export class AppComponent implements OnInit, AfterViewInit {
       google.maps.event.addListener(this.map, 'zoom_changed', () => {
         let prevZoom = this.zoomLevel;
         this.zoomLevel = this.map.getZoom();
-        if ((this.zoomLevel < 16 && prevZoom < 16) || (this.zoomLevel === prevZoom)) {
-          /**Redrawing of polylines not needed */
-        } else {
+        // if ((this.zoomLevel < 16 && prevZoom < 16) || (this.zoomLevel === prevZoom)) {
+        //   /**Redrawing of polylines not needed */
+        // } else {
+
           /**Redraw all current polylines */
           this.hidePolylines();
           this.redrawPolylines();
-        }
       });
 
       /**Recenter map 2 seconds after dragging ends*/
@@ -352,28 +362,29 @@ export class AppComponent implements OnInit, AfterViewInit {
   /**Method to loop through all LatLng points */
   loopThroughPoints(index: number): void {
     this.videoIndex = index;
-    let newLatLng = new google.maps.LatLng(this.gpsData[index].latitude, this.gpsData[index].longitude);
-    // let newLatLng = new google.maps.LatLng(this.flightPlanCoordinates[index].latitude, this.flightPlanCoordinates[index].longitude);
+    this.newLatLng = new google.maps.LatLng(this.gpsData[index].latitude, this.gpsData[index].longitude);
+    // this.newLatLng = new google.maps.LatLng(this.flightPlanCoordinates[index].latitude, this.flightPlanCoordinates[index].longitude);
     if (this.isVideoPlaying) {
       setTimeout(() => {
 
-        this.addPointToPath(newLatLng);
+        this.addPointToPath();
         if (++index < (this.gpsData.length)) {
           this.loopThroughPoints(index);
+          this.marker.setPosition(this.newLatLng);
+
         // if (++index < (this.flightPlanCoordinates.length)) {
         //   this.loopThroughPoints(index);
-        //   this.marker.setPosition(newLatLng);
         } else {
           /**Stop playing video*/
           this.isVideoPlaying = false;
           this.videoIndex = -1;
         }
-      }, (300)); /**100 ms is the rough time gap between each given coordinates*/
+      }, (5)); /**100 ms is the rough time gap between each given coordinates*/
 
 
         if (!this.mapDragged) {
           /**set current point as map center if map is not dragged*/
-          // this.map.setCenter(newLatLng);
+          this.map.setCenter(this.newLatLng);
         }
     } else {
       /**For drawing a continuous path */
@@ -381,38 +392,55 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   /**Method to add LatLng point to path */
-  addPointToPath(newLatLng: any): void {
+  addPointToPath(): void {
 
-    let path, tempPath, len, lastLatLng, secondLastLatLng, startPoint, endPoint, midPoint, midLatlng;
+    let path, tempPath, len, startPoint, endPoint, midPoint;
     let projection = this.map.getProjection();
-    let passXPolylines, pathPolyLine, index, prevPolyline, checkWhichPass, lastPolyline;
+    let passXPolylines, index, prevPolyline;
+    if (this.lastLineLatLngOne && this.lastLineLatLngTwo) {
+      /**Ignore points within tolerance distance of last line */
+      // let tempPolyline = this.pathPolyLine;
+      let tempLastLine = new google.maps.Polyline({
+        map: this.map,
+      });
+      // let tempPathA = tempPolyline.getPath();
+      let tempPathB = tempLastLine.getPath();
+      tempPathB.push(this.lastLineLatLngOne);
+      tempPathB.push(this.lastLineLatLngTwo);
+      if (google.maps.geometry.poly.isLocationOnEdge(this.newLatLng, tempLastLine, 1.5e-6)) {
+        /**Ignore this latLng point when it is within tolerance distance of 6 inches from last polyline */
+        /** 1.5e-6 range equals to 6 inches range(approx.)*/
+        return;
+      }
+    }
     /**Finding mid-point of polyline */
     tempPath = this.polyline.getPath();
     len = tempPath.getLength();
-    lastLatLng = tempPath.getAt(len - 1);
-    midLatlng = secondLastLatLng = null;
+    this.lastLatLng = tempPath.getAt(len - 1);
+    this.midLatlng =  this.secondLastLatLng = null;
     if (tempPath.length > 1) {
-      secondLastLatLng = tempPath.getAt(len - 2);
+      this.secondLastLatLng = tempPath.getAt(len - 2);
     }
-    if (lastLatLng) {
+    if ( this.lastLatLng) {
       /**If polyline path is not null calculate mid-point*/
-      startPoint = projection.fromLatLngToPoint(lastLatLng);
-      endPoint = projection.fromLatLngToPoint(newLatLng);
+      startPoint = projection.fromLatLngToPoint( this.lastLatLng);
+      endPoint = projection.fromLatLngToPoint(this.newLatLng);
       midPoint = new google.maps.Point(
         (startPoint.x + endPoint.x) / 2,
         (startPoint.y + endPoint.y) / 2
       );
-      midLatlng = projection.fromPointToLatLng(midPoint);
+      this.midLatlng = projection.fromPointToLatLng(midPoint);
 
-      if (secondLastLatLng) {
-        lastPolyline = new google.maps.Polyline({
+      if (this.secondLastLatLng) {
+        this.lastPolyline = new google.maps.Polyline({
           map: this.map,
         });
-        let tempo = lastPolyline.getPath();
-        tempo.push(secondLastLatLng);
-        tempo.push(lastLatLng);
+        let tempo = this.lastPolyline.getPath();
+        tempo.push( this.secondLastLatLng);
+        tempo.push( this.lastLatLng);
       }
     }
+
 
     /**Loop to check each pass, from Pass 7 to Pass 1 */
     for (let i = 7; i > 0; i--) {
@@ -421,21 +449,23 @@ export class AppComponent implements OnInit, AfterViewInit {
       while (passXPolylines && passXPolylines[index]) {
 
         path = passXPolylines[index].getPath();
-        pathPolyLine = new google.maps.Polyline({
+        this.pathPolyLine = new google.maps.Polyline({
           path: path
         });
         if (i === 7) {
           /**For last pass */
-          checkWhichPass = i;
+          this.checkWhichPass = i;
         } else {
           /**For all other passes */
-          checkWhichPass = i + 1;
+          this.checkWhichPass = i + 1;
         }
 
-        this.passNumber
-        = this.checkNewPoint(midLatlng, newLatLng, lastLatLng, secondLastLatLng, pathPolyLine, lastPolyline, checkWhichPass);
+        this.passNumber = this.checkPointToWhichPass();
         if (this.passNumber > 0) {
           break;
+        } else if (this.passNumber === -1) {
+          // Ignore current point and going to check next point
+          return;
         }
         index++;
       }
@@ -449,28 +479,38 @@ export class AppComponent implements OnInit, AfterViewInit {
         strokeOpacity: 1,
         strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
         map: this.map,
-        strokeColor: 'yellow',
+        strokeColor: 'red',
         zIndex: 1 // set zIndex as pass number for each path
       });
-      
       tempPath = this.passOnePolylines[this.passOnePolylines.length - 1].getPath();
       len = tempPath.getLength();
       path = this.polyline.getPath();
       if (len > 0) {
-        lastLatLng = tempPath.getAt(len - 1);
-        path.push(lastLatLng);
+        this.lastLatLng = tempPath.getAt(len - 1);
+        path.push(this.lastLatLng);
       }
-      path.push(newLatLng);
+      path.push(this.newLatLng);
       this.passOnePolylines.push(this.polyline);
+    }
+
+    /**Setting last line points */
+    if (!this.lastLineLatLngOne && !this.lastLineLatLngTwo) {
+      this.lastLineLatLngOne = this.newLatLng;
+    } else if (!this.lastLineLatLngTwo) {
+      this.lastLineLatLngTwo = this.newLatLng;
+    } else {
+      /**When both points are not null */
+      this.lastLineLatLngOne = this.lastLineLatLngTwo;
+      this.lastLineLatLngTwo = this.newLatLng;
     }
 
   }
 
   /**Method to find pass number of path being drawn */
-  checkNewPoint(midLatlng, newLatLng, lastLatLng, secondLastLatLng, pathPolyLine, lastPolyline, checkWhichPass): number {
+  checkPointToWhichPass(): number {
     let passAPolylines, passBPolylines, newPolyline, strokeColor, tempPath, path, len;
     let oldSlope, newSlope;
-      switch (checkWhichPass) {
+      switch (this.checkWhichPass) {
         case 2:
           passAPolylines = this.passOnePolylines;
           passBPolylines = this.passTwoPolylines;
@@ -498,47 +538,37 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
 
       /**checking mid-point of polyline */
-      if (midLatlng && google.maps.geometry.poly.isLocationOnEdge(midLatlng, pathPolyLine, 2e-5)) {
+      if (this.midLatlng && google.maps.geometry.poly.isLocationOnEdge(this.midLatlng, this.pathPolyLine, 1.5e-6)) {
         /**Checking new LatLng point */
-        if (google.maps.geometry.poly.isLocationOnEdge(newLatLng, pathPolyLine, 1e-5)) { // 1e-5 range equals to 1 meter range(approx.)
+        if (google.maps.geometry.poly.isLocationOnEdge(this.newLatLng, this.pathPolyLine, 1.5e-6)) {
+          /** 1.5e-6 range equals to 6 inches range(approx.)*/
           passAPolylines.push(this.polyline);
           this.polyline = new google.maps.Polyline({
             geodesic: true,
             strokeOpacity: 1,
-            strokeColor: this.passColors[checkWhichPass - 1].color,
+            strokeColor: this.passColors[this.checkWhichPass - 1].color,
             strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
             map: this.map,
-            zIndex: checkWhichPass // set zIndex as pass number for each path
+            zIndex: this.checkWhichPass // set zIndex as pass number for each path
           });
-          
-          /**Ignore points within tolerance level */
-          let tempPolyline = pathPolyLine;
-          let tempLastLine = new google.maps.Polyline({
-            map: this.map,
-          });
-          let tempPathA = tempPolyline.getPath();
-          let tempPathB = tempLastLine.getPath();
-          tempPathB.push(tempPathA[tempPathA.length - 2]);
-          tempPathB.push(tempPathA.pop());
-          //  .... continue
 
           tempPath = passAPolylines[passAPolylines.length - 1].getPath();
           len = tempPath.getLength();
           path = this.polyline.getPath();
           if (len > 0) {
-            lastLatLng = tempPath.getAt(len - 1);
-            path.push(lastLatLng);
+            this.lastLatLng = tempPath.getAt(len - 1);
+            path.push(this.lastLatLng);
           }
-          path.push(newLatLng);
+          path.push(this.newLatLng);
           passBPolylines.push(this.polyline);
         } else {
-          checkWhichPass = 0;
+          this.checkWhichPass = 0;
         }
       } else {
-        checkWhichPass = 0;
+        this.checkWhichPass = 0;
       }
 
-      return checkWhichPass;
+      return this.checkWhichPass;
   }
 
   /**Method to play or pause video */
