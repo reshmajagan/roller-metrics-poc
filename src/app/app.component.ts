@@ -42,7 +42,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   polyline: any = {};
   map: any = null;
-  flightPlanCoordinates: any;
   polyOptions: any;
   gpsData: any;
   passNumber: number = 0;
@@ -66,171 +65,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   lastLineLatLngTwo: any = null;
 
   ngOnInit(): void {
-
-    this.flightPlanCoordinates = [
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
-      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
-      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
-      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
-      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
-      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
-      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
-      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
-      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
-      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
-      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
-      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
-      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
-      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
-      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
-      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
-      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
-      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
-      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
-
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
-      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
-      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
-      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
-      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
-      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
-      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
-      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
-      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
-      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
-      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
-      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
-      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
-      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
-      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
-      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
-      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
-      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
-      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
-
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
-      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
-      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
-      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
-      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
-      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
-      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
-      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
-      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
-      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
-      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
-      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
-      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
-      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
-      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
-      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
-      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
-      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
-      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
-
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 11, latitude: 37.771475886694645, longitude:  -122.21289843320847},
-      {index: 12, latitude: 37.77152041044142, longitude: -122.2130298614502},
-      {index: 13, latitude: 37.77177483133718, longitude:  -122.21355020999908},
-      {index: 14, latitude: 37.77175786997137, longitude:  -122.21356630325317},
-      {index: 15, latitude: 37.77165398152084 , longitude: -122.21332222223282},
-      {index: 16, latitude: 37.771475886694645, longitude: -122.21292525529861},
-      {index: 17, latitude: 37.77152889115204, longitude:  -122.2128501534462},
-      {index: 18, latitude: 37.77181299439602, longitude:  -122.2126516699791},
-      {index: 19, latitude: 37.771810874226624 , longitude: -122.21266239881516},
-      {index: 20, latitude: 37.77148436741038, longitude: -122.2128877043724},
-      {index: 21, latitude: 37.77147164633643 , longitude: -122.21290916204453},
-      {index: 22, latitude: 37.77159885697761, longitude:  -122.21316397190094},
-      {index: 23, latitude: 37.771647620998735 , longitude: -122.2132819890976},
-      {index: 24, latitude: 37.77178119184835 , longitude: -122.21353143453598},
-      {index: 25, latitude: 37.77176847082546 , longitude: -122.21354216337204},
-      {index: 26, latitude: 37.77156281398484 , longitude: -122.21311032772064},
-      {index: 27, latitude: 37.77147376651555, longitude:  -122.21292525529861},
-      {index: 28, latitude: 37.77150980955175, longitude: -122.21285820007324},
-      {index: 29, latitude: 37.77179603303899, longitude: -122.21266239881516},
-   
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21280455589294},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21264094114304},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21265971660614},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21275895833969},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21283942461014},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21290111541748},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21293866634369},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21304327249527},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21332222223282},
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21363067626953},
-
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21463067626953},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21432222223282},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21404327249527},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21393866634369},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21390111541748},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21383942461014},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21375895833969},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21365971660614},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21364094114304},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21380455589294},
-      {index: 10, latitude: 37.77160733767927, longitude: -122.21380455589294},
-      {index: 9, latitude: 37.77181299439602, longitude: -122.21364094114304},
-      {index: 8, latitude: 37.77181935490393, longitude:  -122.21365971660614},
-      {index: 7, latitude: 37.77168790429624, longitude: -122.21375895833969},
-      {index: 6, latitude: 37.7715712946906, longitude: -122.21383942461014},
-      {index: 5, latitude: 37.771490727946556, longitude: -122.21390111541748},
-      {index: 4, latitude: 37.77149284812515, longitude: -122.21393866634369},
-      {index: 3, latitude: 37.77154161221617, longitude: -122.21404327249527},
-      {index: 2, latitude: 37.771664582389846, longitude:  -122.21432222223282},
-      {index: 1, latitude: 37.77184903726687, longitude: -122.21463067626953},
-
-    ];
 
     /**Considering width of Asphalt roller as 2 meters,
      * width of line is calculated from meters/pixel values for various zoom levels*/
@@ -287,13 +121,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       .subscribe(
         data => {
           this.gpsData = data.gps_data;
-          // this.map.setCenter(new google.maps.LatLng(Number(this.gpsData[0].latitude), Number(this.gpsData[0].longitude)));
-          this.map.setCenter(new google.maps.LatLng(Number(this.flightPlanCoordinates[0].latitude),
-          Number(this.flightPlanCoordinates[0].longitude)));
+          this.map.setCenter(new google.maps.LatLng(Number(this.gpsData[0].latitude), Number(this.gpsData[0].longitude)));
           /**Set duration of video*/
-          // this.duration = this.gpsData[this.gpsData.length - 1].rtc_time - this.gpsData[0].rtc_time; // set this as video duration
-          this.duration = (this.flightPlanCoordinates[this.flightPlanCoordinates.length - 1].rtc_time -
-          this.flightPlanCoordinates[0].rtc_time);
+          this.duration = this.gpsData[this.gpsData.length - 1].rtc_time - this.gpsData[0].rtc_time; // set this as video duration
           this.playButton.nativeElement.disabled = false;
 
         },
@@ -363,18 +193,14 @@ export class AppComponent implements OnInit, AfterViewInit {
   /**Method to loop through all LatLng points */
   loopThroughPoints(index: number): void {
     this.videoIndex = index;
-    // this.newLatLng = new google.maps.LatLng(this.gpsData[index].latitude, this.gpsData[index].longitude);
-    this.newLatLng = new google.maps.LatLng(this.flightPlanCoordinates[index].latitude, this.flightPlanCoordinates[index].longitude);
+    this.newLatLng = new google.maps.LatLng(this.gpsData[index].latitude, this.gpsData[index].longitude);
     if (this.isVideoPlaying) {
       setTimeout(() => {
 
         this.addPointToPath();
-        // if (++index < (this.gpsData.length)) {
-          // this.loopThroughPoints(index);
-          this.marker.setPosition(this.newLatLng);
-
-        if (++index < (this.flightPlanCoordinates.length)) {
+        if (++index < (this.gpsData.length)) {
           this.loopThroughPoints(index);
+          this.marker.setPosition(this.newLatLng);
         } else {
           /**Stop playing video*/
           this.isVideoPlaying = false;
@@ -385,7 +211,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         if (!this.mapDragged) {
           /**set current point as map center if map is not dragged*/
-          // this.map.setCenter(this.newLatLng);
+          this.map.setCenter(this.newLatLng);
         }
     } else {
       /**For drawing a continuous path */
@@ -459,7 +285,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         if (this.passNumber > 0) {
           break;
         } else if (this.passNumber === -1) {
-          // Ignore current point and going to check next point
+          /**Ignore current point and going to check next point */
           return;
         }
         index++;
@@ -475,7 +301,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
         map: this.map,
         strokeColor: 'red',
-        zIndex: 1 // set zIndex as pass number for each path
+        zIndex: 1
       });
       tempPath = this.passOnePolylines[this.passOnePolylines.length - 1].getPath();
       len = tempPath.getLength();
