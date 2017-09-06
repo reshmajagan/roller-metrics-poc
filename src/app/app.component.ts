@@ -64,7 +64,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   checkWhichPass: number;
   lastLineLatLngOne: any = null;
   lastLineLatLngTwo: any = null;
-  
+
   ngOnInit(): void {
 
     this.flightPlanCoordinates = [
@@ -287,13 +287,13 @@ export class AppComponent implements OnInit, AfterViewInit {
       .subscribe(
         data => {
           this.gpsData = data.gps_data;
-          this.map.setCenter(new google.maps.LatLng(Number(this.gpsData[0].latitude), Number(this.gpsData[0].longitude)));
-          // this.map.setCenter(new google.maps.LatLng(Number(this.flightPlanCoordinates[0].latitude),
-          // Number(this.flightPlanCoordinates[0].longitude)));
+          // this.map.setCenter(new google.maps.LatLng(Number(this.gpsData[0].latitude), Number(this.gpsData[0].longitude)));
+          this.map.setCenter(new google.maps.LatLng(Number(this.flightPlanCoordinates[0].latitude),
+          Number(this.flightPlanCoordinates[0].longitude)));
           /**Set duration of video*/
-          this.duration = this.gpsData[this.gpsData.length - 1].rtc_time - this.gpsData[0].rtc_time; // set this as video duration
-          // this.duration = (this.flightPlanCoordinates[this.flightPlanCoordinates.length - 1].rtc_time -
-          // this.flightPlanCoordinates[0].rtc_time);
+          // this.duration = this.gpsData[this.gpsData.length - 1].rtc_time - this.gpsData[0].rtc_time; // set this as video duration
+          this.duration = (this.flightPlanCoordinates[this.flightPlanCoordinates.length - 1].rtc_time -
+          this.flightPlanCoordinates[0].rtc_time);
           this.playButton.nativeElement.disabled = false;
 
         },
@@ -338,13 +338,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       google.maps.event.addListener(this.map, 'zoom_changed', () => {
         let prevZoom = this.zoomLevel;
         this.zoomLevel = this.map.getZoom();
-        // if ((this.zoomLevel < 16 && prevZoom < 16) || (this.zoomLevel === prevZoom)) {
-        //   /**Redrawing of polylines not needed */
-        // } else {
-
+        if ((this.zoomLevel < 10 && prevZoom < 10) || (this.zoomLevel === prevZoom)) {
+          /**Redrawing of polylines not needed */
+        } else {
           /**Redraw all current polylines */
           this.hidePolylines();
           this.redrawPolylines();
+        }
+        console.log('zoom: ', this.zoomLevel);
       });
 
       /**Recenter map 2 seconds after dragging ends*/
@@ -362,29 +363,29 @@ export class AppComponent implements OnInit, AfterViewInit {
   /**Method to loop through all LatLng points */
   loopThroughPoints(index: number): void {
     this.videoIndex = index;
-    this.newLatLng = new google.maps.LatLng(this.gpsData[index].latitude, this.gpsData[index].longitude);
-    // this.newLatLng = new google.maps.LatLng(this.flightPlanCoordinates[index].latitude, this.flightPlanCoordinates[index].longitude);
+    // this.newLatLng = new google.maps.LatLng(this.gpsData[index].latitude, this.gpsData[index].longitude);
+    this.newLatLng = new google.maps.LatLng(this.flightPlanCoordinates[index].latitude, this.flightPlanCoordinates[index].longitude);
     if (this.isVideoPlaying) {
       setTimeout(() => {
 
         this.addPointToPath();
-        if (++index < (this.gpsData.length)) {
-          this.loopThroughPoints(index);
+        // if (++index < (this.gpsData.length)) {
+          // this.loopThroughPoints(index);
           this.marker.setPosition(this.newLatLng);
 
-        // if (++index < (this.flightPlanCoordinates.length)) {
-        //   this.loopThroughPoints(index);
+        if (++index < (this.flightPlanCoordinates.length)) {
+          this.loopThroughPoints(index);
         } else {
           /**Stop playing video*/
           this.isVideoPlaying = false;
           this.videoIndex = -1;
         }
-      }, (5)); /**100 ms is the rough time gap between each given coordinates*/
+      }, (100)); /**100 ms is the rough time gap between each given coordinates*/
 
 
         if (!this.mapDragged) {
           /**set current point as map center if map is not dragged*/
-          this.map.setCenter(this.newLatLng);
+          // this.map.setCenter(this.newLatLng);
         }
     } else {
       /**For drawing a continuous path */
@@ -394,19 +395,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   /**Method to add LatLng point to path */
   addPointToPath(): void {
 
-    let path, tempPath, len, startPoint, endPoint, midPoint;
+    let path, tempPath, tempPathA, tempLastLine, len, startPoint, endPoint, midPoint;
     let projection = this.map.getProjection();
     let passXPolylines, index, prevPolyline;
     if (this.lastLineLatLngOne && this.lastLineLatLngTwo) {
       /**Ignore points within tolerance distance of last line */
-      // let tempPolyline = this.pathPolyLine;
-      let tempLastLine = new google.maps.Polyline({
-        map: this.map,
-      });
-      // let tempPathA = tempPolyline.getPath();
-      let tempPathB = tempLastLine.getPath();
-      tempPathB.push(this.lastLineLatLngOne);
-      tempPathB.push(this.lastLineLatLngTwo);
+      tempLastLine = new google.maps.Polyline();
+      tempPathA = tempLastLine.getPath();
+      tempPathA.push(this.lastLineLatLngOne);
+      tempPathA.push(this.lastLineLatLngTwo);
       if (google.maps.geometry.poly.isLocationOnEdge(this.newLatLng, tempLastLine, 1.5e-6)) {
         /**Ignore this latLng point when it is within tolerance distance of 6 inches from last polyline */
         /** 1.5e-6 range equals to 6 inches range(approx.)*/
@@ -432,9 +429,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.midLatlng = projection.fromPointToLatLng(midPoint);
 
       if (this.secondLastLatLng) {
-        this.lastPolyline = new google.maps.Polyline({
-          map: this.map,
-        });
+        this.lastPolyline = new google.maps.Polyline();
         let tempo = this.lastPolyline.getPath();
         tempo.push( this.secondLastLatLng);
         tempo.push( this.lastLatLng);
@@ -591,7 +586,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
     });
 
-    /**Setting current polyline as null */
+    /**Setting current polyline as hidden */
     this.polyline.setVisible(false);
   }
 
