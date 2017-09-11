@@ -9,7 +9,7 @@ import {
 
 import { GoogleMapApiLoader } from './shared/google-map-api-loader';
 import { LoadPathService } from './load-path.service';
-import { SliderComponent } from './slider/slider.component';
+// import { SliderComponent } from './slider/slider.component';
 
 declare var google: any;
 
@@ -26,10 +26,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {}
 
   @ViewChild('map') mapElement: any;
-  @ViewChild('slider') slider: SliderComponent;
+  // @ViewChild('slider') slider: SliderComponent;
   @ViewChild('playButton') playButton: ElementRef;
 
   title = 'app';
+  /**Asphalt Roller width in unit metres */
+  widthOfRoller: number = 2;
   passOnePolylines: Array<any> = [];
   passTwoPolylines: Array<any> = [];
   passThreePolylines: Array<any> = [];
@@ -66,33 +68,34 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    /**Considering width of Asphalt roller as 2 meters,
-     * width of line is calculated from meters/pixel values for various zoom levels*/
+    /**Width of line is calculated from meters/pixel values for various zoom levels.
+     * unitWidth gives pixel width for one metre wide roller
+    */
     this.zoomScaleIndex = [
-      {zoom: 1, polylineWidth: 0.001},
-      {zoom: 2, polylineWidth: 0.001},
-      {zoom: 3, polylineWidth: 0.001},
-      {zoom: 4, polylineWidth: 0.001},
-      {zoom: 5, polylineWidth: 0.001},
-      {zoom: 6, polylineWidth: 0.001},
-      {zoom: 7, polylineWidth: 0.001},
-      {zoom: 8, polylineWidth: 0.003},
-      {zoom: 9, polylineWidth: 0.006},
-      {zoom: 10, polylineWidth: 0.013},
-      {zoom: 11, polylineWidth: 0.026},
-      {zoom: 12, polylineWidth: 0.052},
-      {zoom: 13, polylineWidth: 0.104},
-      {zoom: 14, polylineWidth: 0.209},
-      {zoom: 15, polylineWidth: 0.419},
-      {zoom: 16, polylineWidth: 0.838},
-      {zoom: 17, polylineWidth: 1.676},
-      {zoom: 18, polylineWidth: 3.356},
-      {zoom: 19, polylineWidth: 6.711},
-      {zoom: 20, polylineWidth: 13.423},
-      {zoom: 21, polylineWidth: 26.846},
-      {zoom: 22, polylineWidth: 53.691},
-      {zoom: 23, polylineWidth: 107.382},
-      {zoom: 24, polylineWidth: 214.765}
+      {zoom: 1, unitWidth: 0.000013},
+      {zoom: 2, unitWidth: 0.000026},
+      {zoom: 3, unitWidth: 0.00005},
+      {zoom: 4, unitWidth: 0.00010},
+      {zoom: 5, unitWidth: 0.00020},
+      {zoom: 6, unitWidth: 0.00041},
+      {zoom: 7, unitWidth: 0.00082},
+      {zoom: 8, unitWidth: 0.0016},
+      {zoom: 9, unitWidth: 0.0033},
+      {zoom: 10, unitWidth: 0.0065},
+      {zoom: 11, unitWidth: 0.013},
+      {zoom: 12, unitWidth: 0.026},
+      {zoom: 13, unitWidth: 0.052},
+      {zoom: 14, unitWidth: 0.104},
+      {zoom: 15, unitWidth: 0.209},
+      {zoom: 16, unitWidth: 0.419},
+      {zoom: 17, unitWidth: 0.838},
+      {zoom: 18, unitWidth: 1.676},
+      {zoom: 19, unitWidth: 3.356},
+      {zoom: 20, unitWidth: 6.711},
+      {zoom: 21, unitWidth: 13.423},
+      {zoom: 22, unitWidth: 26.846},
+      {zoom: 23, unitWidth: 53.691},
+      {zoom: 24, unitWidth: 107.382}
     ];
 
     this.passColors = [
@@ -148,7 +151,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.polyOptions = { // Can also consider PolylineOptions object
         geodesic: true,
         strokeOpacity: 1,
-        strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
+        strokeWeight: (this.zoomScaleIndex[this.map.getZoom() - 1].unitWidth) * this.widthOfRoller,
         map: this.map,
         zIndex: 1
       };
@@ -156,7 +159,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.polyline = new google.maps.Polyline({
         geodesic: true,
         strokeOpacity: 1,
-        strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
+        strokeWeight: (this.zoomScaleIndex[this.map.getZoom() - 1].unitWidth) * this.widthOfRoller,
         map: this.map,
         strokeColor: 'red',
         zIndex: 1
@@ -298,7 +301,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.polyline = new google.maps.Polyline({
         geodesic: true,
         strokeOpacity: 1,
-        strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
+        strokeWeight: (this.zoomScaleIndex[this.map.getZoom() - 1].unitWidth) * this.widthOfRoller,
         map: this.map,
         strokeColor: 'red',
         zIndex: 1
@@ -368,7 +371,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             geodesic: true,
             strokeOpacity: 1,
             strokeColor: this.passColors[this.checkWhichPass - 1].color,
-            strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,
+            strokeWeight: (this.zoomScaleIndex[this.map.getZoom() - 1].unitWidth) * this.widthOfRoller,
             map: this.map,
             zIndex: this.checkWhichPass // set zIndex as pass number for each path
           });
@@ -420,12 +423,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   redrawPolylines(): void {
     this.allPasses.forEach(eachPass => {
       eachPass.forEach(eachPolyline => {
-        eachPolyline.strokeWeight = this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth;
+        eachPolyline.strokeWeight = (this.zoomScaleIndex[this.map.getZoom() - 1].unitWidth) * this.widthOfRoller;
         eachPolyline.setVisible(true);
       });
     });
     /**Redrawing current polyline */
-    this.polyline.strokeWeight = this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth;
+    this.polyline.strokeWeight = (this.zoomScaleIndex[this.map.getZoom() - 1].unitWidth) * this.widthOfRoller;
     this.polyline.setVisible(true);
   }
 
