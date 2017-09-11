@@ -3,20 +3,15 @@ $white: #FFFFFF;
 /* Always set the map height explicitly to define the size of the div
   * element that contains the map. */
 .map-container {
-  height: 570px;
+  height: 90vh;
+  min-height: 300px;
   width: 100%;
-}
-/* Optional: Makes the sample page fill the window. */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 /* Video Controls */
 .video-controls-container {
   background-color: gray;
-  height: 50px;
+  height: 10vh;
   width: 100%;
 }
 .video-controls {
@@ -27,70 +22,34 @@ html, body {
   user-select: none;
   cursor: default;
 
-  .play-button {
-    background: transparent;
-    background-image: url('./../assets/images/play.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 20px;
-    height: 20px;
-    border-style: none;
-    outline-style: none;
-    float: right;
-    margin-right: 47.5%;
-    cursor: pointer;
+  .play-pause {
+    
+    margin: 0 auto;
+    width: 7%;
 
-    &.is-playing {
-      background-image: url('./../assets/images/pause_icon.svg');
+    .play-button {
+      background: transparent;
+      background-image: url('./../assets/images/play.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      width: 20px;
+      height: 20px;
+      border-style: none;
+      outline-style: none;
+      float: right;
+      cursor: pointer;
+  
+      &.is-playing {
+        background-image: url('./../assets/images/pause_icon.svg');
+      }
     }
-  }
-
-  & span {
-    margin-left: 47%;
-    font-size: 20px;
-  }
-
-  .time-elapsed {
-    color: $white;
-    display: inline-block;
-    width: 70px;
-    text-align: right;
-    line-height: 16px;
-    position: absolute;
-    font-size: 12px;
-  }
-
-  .duration {
-    color: $white;
-    display: inline-block;
-    width: 50px;
-    text-align: left;
-    line-height: 16px;
-    position: absolute;
-    left: calc( 100% - 80px);
-    font-size: 12px;
-  }
-
-  .full-screen-button {
-    background: transparent;
-    background-image: url('./../assets/images/full_screen.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    right: 16px;
-    border-style: none;
-    outline-style: none;
-    &.exit {
-      background-image: url('./../assets/images/exit_fullscreen.svg');
+  
+    & span {
+      display: inline-block;
+      font-size: 20px;
     }
 
   }
+  
 
-  .slider {
-    width: calc( 100% - 200px);
-    left: 115px;
-    position: absolute;
-  }
 }

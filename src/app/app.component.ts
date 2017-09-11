@@ -145,7 +145,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         scaleControl: true
       });
       this.map = map;
-      this.polyOptions = { // Also consider PolylineOptions object
+      this.polyOptions = { // Can also consider PolylineOptions object
         geodesic: true,
         strokeOpacity: 1,
         strokeWeight: this.zoomScaleIndex[this.map.getZoom() - 1].polylineWidth,

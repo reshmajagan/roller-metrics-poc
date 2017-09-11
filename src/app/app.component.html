@@ -3,13 +3,15 @@
 
 <div class="video-controls-container">
   <div class="video-controls">
-    <span *ngIf="!isVideoPlaying">Play</span>
-    <span *ngIf="isVideoPlaying">Pause</span>
-    <button class="play-button"
-      (click) = "togglePlay()"
-      [ngClass]="{'is-playing':isVideoPlaying}"
-      [title]="isVideoPlaying?'Pause':'Play'"
-      #playButton>
-    </button>
+    <div class="play-pause">
+      <span *ngIf="!isVideoPlaying">Play</span>
+      <span *ngIf="isVideoPlaying">Pause</span>
+      <button class="play-button"
+        (click) = "togglePlay()"
+        [ngClass]="{'is-playing':isVideoPlaying}"
+        [title]="isVideoPlaying?'Pause':'Play'"
+        #playButton>
+      </button>
+    </div>
   </div>
 </div>
